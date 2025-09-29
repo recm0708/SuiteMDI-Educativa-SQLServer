@@ -28,6 +28,7 @@ Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedur
 
 ## 📁 Estructura del Repositorio
 
+```
 SuiteMDI-Educativa-SQLServer/
 │
 ├── .github/
@@ -81,6 +82,7 @@ SuiteMDI-Educativa-SQLServer/
 ├── LICENSE                               # MIT (bilingüe)
 ├── README.md                             # Este archivo
 └── SECURITY.md                           # Política de seguridad y manejo de secretos
+```
 
 > 🔒 **No se versiona** ningún `App.config` real; se usa plantilla `App.config.template.config`.
 
