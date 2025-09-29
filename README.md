@@ -187,6 +187,15 @@ En **/db_scripts** encontrarás los scripts en **este orden**:
 
 ---
 
+## 📸 Vistas
+
+| Pantalla | Imagen |
+|---|---|
+| Inicio de sesión | ![frmAcceso](./docs/capturas/frmAcceso.png) |
+| MDI Principal | ![frmMDI](./docs/capturas/frmMDI.png) |
+
+---
+
 ## 📄 Licencia
 
 Este proyecto está bajo **MIT** (bilingüe). Ver [`LICENSE`](./LICENSE).  
