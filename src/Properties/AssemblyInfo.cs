@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Universidad Tecnológica de Panamá")]
 [assembly: AssemblyProduct("bd_A7_RubenCanizares")]
-[assembly: AssemblyCopyright("Copyright © Universidad Tecnológica de Panamá 2025")]
+[assembly: AssemblyCopyright("Copyright © Ruben Enrique Cañizares Miranda. 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Número de compilación
 //      Revisión
 //
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]
