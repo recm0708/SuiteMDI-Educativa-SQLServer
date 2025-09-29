@@ -1,5 +1,0 @@
-2025-09-28 22:58:11: == Analizar compara las Sumas de Control de los archivos que tienen el mismo tamaño, pero diferente Fecha de Modificación
-2025-09-28 22:58:11: == Analizar compara Sumas de Control (Checksums) de cada archivo, así que se ejecutará LENTAMENTE, porque los archivos deben ser leídos para calcular sus Sumas de Control
-2025-09-28 22:58:11: -- Análisis iniciado por On File Change, After Delay
-2025-09-28 22:58:11: Cambios: 0, Conflictos: 0, CopiaFecha: 0, CopiaEstado: 0, Errores: 0, All: 49
-2025-09-28 22:58:11: -- Análisis completo. Tiempo 00:00:02, Velocidad: 24 archivo/s
