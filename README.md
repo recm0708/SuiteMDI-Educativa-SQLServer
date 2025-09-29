@@ -28,17 +28,16 @@ Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedur
 
 ## 📁 Estructura del Repositorio
 
-```
 SuiteMDI-Educativa-SQLServer/
 │
-├── .github/                           # Scripts SQL (01 … 09) con comentarios y pruebas
+├── .github/
 │   ├── ISSUE_TEMPLATE/                # Plantillas para crear Issues
 │   │   ├── bug_report                 # Reporte de errores (template)
 │   │   └── feature_request            # Solicitud de mejoras (template)
 │   ├── workflows/
-│   │   └── build                      # Workflow de build (Actions) - archivo .yml
+│   │   └── build                      # GitHub Actions: build en Windows
 │   ├── CODEOWNERS                     # Responsables por defecto de revisiones (PRs)
-│   └── PULL_REQUEST_TEMPLATE          # Plantilla para Pull Requests
+│   └── PULL_REQUEST_TEMPLATE          # Plantilla de Pull Requests
 │
 ├── assets/                            # Logos, íconos e imágenes (para UI y README)
 │   ├── logo.png
@@ -48,45 +47,40 @@ SuiteMDI-Educativa-SQLServer/
 │   ├── 01_CrearBD_y_Tablas-mejorado.sql
 │   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejoradoql
 │   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
-│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql
-│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql
-│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql
-│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
-│   ├── 08_TablasDelAplicativo-mejorado.sql
-│   └── 09_ProcedimientosAplicativo-mejorado.sql
+│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql (pendiente)
+│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql (pendiente)
+│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql (pendiente)
+│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql (pendiente)
+│   ├── 08_TablasDelAplicativo-mejorado.sql (pendiente)
+│   └── 09_ProcedimientosAplicativo-mejorado.sql (pendiente)
 │
 ├── docs/                                 # Documentación, capturas y diagramas
 │   ├── capturas/
 │   │   ├── frmAcceso.png
-│   │   ├── frmMDI.png
-│   │   └── ...
+│   │   └── frmMDI.png
 │   └── diagramas/
-│       └── ...
 │
 ├── src/                                  # Solución y proyecto de Visual Studio (WinForms .NET 4.8)
-│   ├── Assets/                           # Recursos internos del proyecto (iconos, imágenes)
+│   ├── Assets/                           # Recursos internos del proyecto (iconos, imágenes, etc.)
 │   ├── Datos/                            # ClsConexion y acceso a datos (SqlClient, SPs)
 │   ├── Negocio/                          # Clases de procesos/servicios (CRUD, lógica)
 │   ├── Presentacion/                     # Formularios (MDI, Acceso, Usuarios, etc.)
 │   ├── Properties/                       # AssemblyInfo, recursos de WinForms
 │   ├── Soporte/                          # Globales, ThemeHelper, utilidades
-│   ├── App.config.template.config        # Plantilla (no versionar App.config real)
+│   ├── App.config.template.config        # Plantilla (NO versionar App.config real)
 │   ├── bd_A7_RubenCanizares.csproj       # Proyecto WinForms
 │   ├── bd_A7_RubenCanizares.sln          # Solución principa
 │   └── Program.cs
 │
 ├── tools/                                # Utilidades (opcional)
-│   └── ...
 │
 ├── .gitattributes                        # Normaliza fin de línea y tipos de archivo
 ├── .gitignore                            # Ignora src/_gsdata_/ y src/**/App.config, entre otros
-├── CHANGELOG.md                          # Historial de cambios (opcional)
+├── CHANGELOG.md                          # Historial de cambios
 ├── CONTRIBUTING.md                       # Guía para contribuir (issues, PRs, estilo)
 ├── LICENSE                               # MIT (bilingüe)
 ├── README.md                             # Este archivo
 └── SECURITY.md                           # Política de seguridad y manejo de secretos
-
-```
 
 > 🔒 **No se versiona** ningún `App.config` real; se usa plantilla `App.config.template.config`.
 
@@ -104,103 +98,105 @@ SuiteMDI-Educativa-SQLServer/
 
 ## 🛠️ Configuración Inicial
 
-1. **Clonar** el repositorio (o crear la carpeta local e inicializar con GitHub Desktop):  
+1. **Clonar** el repositorio (o crear la carpeta local con GitHub Desktop):  
    `C:\GitHub Repositories\SuiteMDI-Educativa-SQLServer\`
-
 2. **Abrir en VS** la solución en `/src/`.
-
-3. **Crear** tu archivo `App.config` desde la plantilla:
-   - Copia `src/bd_A7_RubenCanizares/App.config.template.config` → renómbralo a **`App.config`**.
+3. **Crear** tu `App.config` desde la plantilla:
+   - Copia `src/bd_A7_RubenCanizares/App.config.example` → renómbralo a **`App.config`**.
    - Edita la contraseña real de SQL en `SqlDocker` (y `SqlLocal` si lo usas).
-
 4. **Docker/SQL** en marcha:
    - Contenedor SQL Server expuesto en `127.0.0.1,2333`.
-   - Usuario: `sa`, Password: la tuya (debes ponerla en `App.config`).
-
+   - Usuario: `sa`, Password: la tuya (colócala en `App.config`).
 5. **Ejecutar scripts SQL** (ver siguiente sección).
 
 ---
 
 ## 🧩 Configuración de Base de Datos (SQL)
 
-En **/db_scripts** encontrarás los scripts en **este orden**:
+En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0.1,2333` como `sa`):
 
-1. `01_CrearBD_y_Tablas.sql`  
-   - Crea la base `Ejemplo_SIN_Encripcion` y la tabla `dbo.Perfiles` (IDENTITY desde 1000).  
-   - Crea el **LOGIN/USER** `UsrProcesa` (rol `db_owner` para DEV).  
-   - Script **idempotente** y con pruebas al final (comentadas).
-
-2. `02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion.sql`  
-   - Crea **`dbo.prValidarUsuario`**.  
-   - Compara **Pass (VARBINARY)** de forma segura: `Pass = CONVERT(VARBINARY(128), @Pass)`.  
-   - Incluye pruebas (comentadas) y ejemplo de inserción de usuario de test.
-
-3. `03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion.sql`  
-4. `04_CrearProcedimiento_de_Consulta_de_Usuario.sql`  
-5. `05_CrearProcedimiento_de_Eliminación_de_Usuario.sql`  
-6. `06_CrearProcedimiento_de_Modificar_de_Usuario.sql`  
-7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion.sql`  
-8. `08_TablasDelAplicativo.sql`  
-9. `09_ProcedimientosAplicativo.sql`
-
-> ▶️ **Ejecución (SSMS):** Conéctate a `127.0.0.1,2333` con `sa`. Abre y ejecuta cada script **en orden**. Revisa los **SELECT / pruebas** al final de cada uno (comentadas) para validar.
-
----
-
-## 🔐 Variables/Secretos y Seguridad
-
-- ❌ **No subir `App.config` real** al repositorio (está bloqueado en `.gitignore`).  
-- ✅ Se versiona **`App.config.example`** con placeholders (e.g., `TU_PASSWORD_SA`).
-- 🖥️ En cada PC, crea tu `App.config` local desde la plantilla y coloca la contraseña real.
-- 🏭 Para producción, usa **usuarios distintos** a `sa`, **mínimos permisos**, y considera un **almacén de secretos** (Azure Key Vault, variables de entorno, etc.).
+1. `01_CrearBD_y_Tablas-mejorado.sql`
+   - Crea BD `Ejemplo_SIN_Encripcion` y tabla `dbo.Perfiles` (IDENTITY desde 1000).
+   - Crea **LOGIN/USER** `UsrProcesa` (rol `db_owner` para DEV).
+   - Script idempotente + pruebas comentadas.
+2. `02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql`
+   - Crea **`dbo.prValidarUsuario`**.
+   - Compara **Pass (VARBINARY)** de forma segura: `Pass = CONVERT(VARBINARY(128), @Pass)`.
+   - Incluye pruebas (comentadas) y ejemplo de inserción de usuario test.
+3. `03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql`
+   - Crea **`dbo.prInsertarUsuario`** con `@CodigoUsuario OUTPUT`.
+   - Inserta Pass como `VARBINARY(128)` desde `VARCHAR`.
+   - Pruebas para insertar y validar login.
+4. `04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql`  *(pendiente)*
+5. `05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql` *(pendiente)*
+6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql` *(pendiente)*
+7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*
+8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*
+9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
 
 ---
 
-## ▶️ Ejecución y Pruebas
+✅ **Estado de scripts**
+- [x] 01_CrearBD_y_Tablas-mejorado.sql
+- [x] 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
+- [x] 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
+- [ ] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql
+- [ ] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql
+- [ ] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql
+- [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
+- [ ] 08_TablasDelAplicativo-mejorado.sql
+- [ ] 09_ProcedimientosAplicativo-mejorado.sql
+
+---
+
+## 🔐 Variables/Secretos y seguridad
+
+- ❌ **No subir `App.config` real** al repositorio (`.gitignore` ya bloquea `src/**/App.config`).  
+- ✅ Se versiona **`App.config.example`** con placeholders (ej. `TU_PASSWORD_SA`).  
+- 🖥️ En cada PC, crea tu `App.config` local desde la plantilla y coloca tu contraseña real.  
+- 🏭 Producción: **usuarios no `sa`**, permisos mínimos y **almacén de secretos** (variables de entorno, Key Vault, etc.).
+
+---
+
+## ▶️ Ejecución y pruebas
 
 1. **Compilar** en VS: `Compilar → Compilar solución`.  
 2. **Ejecutar**: `Depurar → Iniciar sin depuración (Ctrl+F5)`.  
-3. Al iniciar, aparece **frmAcceso**:  
-   - En la **Parte A (básica)**: botón **Aceptar** prueba conexión (`SELECT 1`).  
-   - En la **Parte B (avanzada)**: **validación real** contra `dbo.prValidarUsuario`.  
+3. Al iniciar, **frmAcceso**:  
+   - **Parte A (básica)**: botón **Aceptar** prueba conexión (`SELECT 1`).  
+   - **Parte B (avanzada)**: validación real con `dbo.prValidarUsuario`.  
 4. **MDI** se abre solo si `Globales.gblInicioCorrecto == 1`.  
-5. CRUD de usuarios (cuando esté activo): formulario **frmUsuarios** con grilla y acciones (Consultar/Insertar/Modificar/Eliminar/Cambiar Password).
+5. CRUD de usuarios (cuando esté activo): **frmUsuarios** con grilla y acciones (Consultar/Insertar/Modificar/Eliminar/Cambiar Password).
 
 ---
 
 ## 🔄 Flujo de trabajo con GitHub Desktop
 
-- **Primer commit / publicación**:  
-  - Agrega/edita archivos (estructura, scripts, plantillas).  
-  - En GitHub Desktop:  
-    - **Summary (obligatorio, en español)**: _“Inicializar repositorio: estructura + archivos base + Parte A”_  
-    - **Description (opcional)**: _“Se agrega estructura (src, db_scripts, docs, assets, tools), LICENSE MIT, README, SECURITY, .gitignore, .gitattributes y App.config.example.”_  
-    - **Commit to main** → **Publish repository**.
-
-- **Día a día (PC1 ↔ PC2)**:  
-  - Trabaja → **Commit** con mensajes claros en español → **Push**.  
-  - En la otra PC → **Pull** para actualizar → copiar `App.config.example` a `App.config` si no existe.
+- **Commits** en español (Summary obligatorio).  
+- **Push** para sincronizar con GitHub.  
+- **Pull** en la otra PC para traer cambios.  
+- Vincula commits con Issues usando `Closes #N` en la descripción.
 
 > 🧹 `.gitignore` evita subir `src/**/App.config` y la carpeta oculta `src/_gsdata_/`.
 
 ---
 
-## 🧭 Convenciones y Calidad
+## 🧭 Convenciones y calidad
 
 - 🧱 **Capas**: `Presentacion`, `Negocio`, `Datos`, `Soporte`.  
-- 📜 **SQL**: scripts idempotentes, cabecera con objetivo y **pruebas comentadas**.  
+- 📜 **SQL**: idempotentes, cabecera con objetivo y **pruebas comentadas**.  
 - 🧯 **Errores**: mensajes claros (código y texto).  
-- 🎨 **Estilo visual**: helper de tema (colores/botones), assets en `/assets`.  
+- 🎨 **Estilo visual**: ThemeHelper (colores/botones), assets en `/assets`.  
 - ✍️ **C#**: comentarios donde haya reglas de negocio o decisiones no triviales.
 
 ---
 
-## 🧰 Problemas Comune
+## 🧰 Problemas comunes
 
-- ⏱️ **Timeout / no conecta**: verificar contenedor Docker arriba y puerto `2333` mapeado.  
-- 🔑 **Login failed for user 'sa' (18456)**: credenciales incorrectas o política de contraseñas.  
-- ❓ **No encuentra SP**: ejecutar **scripts 01–09** en orden, revisar `USE` de la BD y `OBJECT_ID`.  
-- 🧩 **Diseñador WinForms falla por eventos inexistentes**: abrir `*.Designer.cs` y eliminar líneas de `+= ...Click` huérfanas.
+- ⏱️ **Timeout / no conecta**: verificar contenedor Docker y puerto `2333` mapeado.  
+- 🔑 **Login failed for user 'sa' (18456)**: credenciales/política de contraseñas.  
+- ❓ **SP no encontrado**: ejecutar 01–09 en orden; revisar `USE`/`OBJECT_ID`.  
+- 🧩 **Diseñador WinForms**: si falla por eventos huérfanos, abrir `*.Designer.cs` y quitar `+= ...Click` inexistentes.
 
 ---
 
