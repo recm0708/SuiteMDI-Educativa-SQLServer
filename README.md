@@ -161,8 +161,7 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
   - No borra datos. Tras ejecutarlo, el **próximo** `CodigoUsuario` será `MAX + 1`.
 
 **Cómo probar rápido (SSMS):**
-```
-sql
+```sql
 USE Ejemplo_SIN_Encripcion;
 SELECT DB_NAME() AS DB;
 SELECT OBJECT_ID('dbo.Perfiles','U')  AS Perfiles;
