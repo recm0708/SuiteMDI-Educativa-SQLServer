@@ -143,22 +143,31 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
    - `@CodigoUsuario = 0` → devuelve **todos**; `> 0` → devuelve **uno**.  
    - Nunca devuelve **Pass**; incluye `ORDER BY CodigoUsuario`.  
 
-5. `05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql` *(pendiente)*  
+5. `05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql`  
+   - Crea **dbo.prEliminarUsuario(@CodigoUsuario INT)**.  
+   - Elimina por código y **retorna `@@ROWCOUNT`** (1 = eliminado, 0 = no existía).  
+   - Pruebas: `SELECT` antes/después + verificación de código de retorno.
+
 6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql` *(pendiente)*  
 7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*  
 8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*  
 9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
 
+### 🧰 Mantenimiento DEV (opcional)
+- `10_Mantenimiento_Reseed_Perfiles.sql`  
+  - Ajusta el contador **IDENTITY** de `dbo.Perfiles` al **MAX(CodigoUsuario)** existente.  
+  - Uso recomendado en **desarrollo** para alinear consecutivos después de pruebas/borrados.  
+  - No borra datos. Tras ejecutarlo, el **próximo** `CodigoUsuario` será `MAX + 1`.
+
 **Cómo probar rápido (SSMS):**
-- Conexión: **Servidor** `127.0.0.1,2333` · **Usuario** `sa` · **Password** tu contraseña.  
-- Verifica existencia de objetos:  
-  ```sql
-  USE Ejemplo_SIN_Encripcion;
-  SELECT DB_NAME() AS DB;
-  SELECT OBJECT_ID('dbo.Perfiles','U')  AS Perfiles;
-  SELECT OBJECT_ID('dbo.prValidarUsuario','P') AS prValidarUsuario;
-  SELECT OBJECT_ID('dbo.prInsertarUsuario','P') AS prInsertarUsuario;
-  SELECT OBJECT_ID('dbo.prConsultarUsuarios','P') AS prConsultarUsuarios;
+```sql
+USE Ejemplo_SIN_Encripcion;
+SELECT DB_NAME() AS DB;
+SELECT OBJECT_ID('dbo.Perfiles','U')  AS Perfiles;
+SELECT OBJECT_ID('dbo.prValidarUsuario','P') AS prValidarUsuario;
+SELECT OBJECT_ID('dbo.prInsertarUsuario','P') AS prInsertarUsuario;
+SELECT OBJECT_ID('dbo.prConsultarUsuarios','P') AS prConsultarUsuarios;
+SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 
 ---
 
@@ -167,11 +176,12 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
 - [x] 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql  
 - [x] 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql  
 - [x] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql  
-- [ ] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
+- [x] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
 - [ ] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql  
 - [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql  
 - [ ] 08_TablasDelAplicativo-mejorado.sql  
-- [ ] 09_ProcedimientosAplicativo-mejorado.sql  
+- [ ] 09_ProcedimientosAplicativo-mejorado.sql
+- [x] 10_Mantenimiento_Reseed_Perfiles.sql 
 
 ---
 
@@ -246,6 +256,7 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
 | Inicio de sesión | ![frmAcceso](./docs/capturas/frmAcceso.png) |
 | MDI Principal | ![frmMDI](./docs/capturas/frmMDI.png) |
 | Usuarios        | ![frmUsuarios](./docs/capturas/frmUsuarios.png) |
+| Usuarios (eliminar) | ![frmUsuarios-Eliminar](./docs/capturas/frmUsuarios-Eliminar.png) |
 
 ---
 
