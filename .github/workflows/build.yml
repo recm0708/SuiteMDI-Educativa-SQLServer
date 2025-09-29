@@ -8,8 +8,7 @@ on:
 
 jobs:
   build-windows:
-    # Para .NET Framework clásico, este runner es más estable
-    runs-on: windows-2019
+    runs-on: windows-2019  # Estable para .NET Framework 4.8
 
     steps:
       - name: Checkout
@@ -23,44 +22,43 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
-      # Detecta automáticamente tu solución bajo src/
       - name: Detect solution under src/
         id: find_sln
         shell: pwsh
         run: |
           $sln = Get-ChildItem -Path "src" -Filter *.sln -Recurse | Select-Object -First 1
           if (-not $sln) { Write-Error "No se encontró ninguna .sln bajo 'src/'"; exit 1 }
-          echo "SLN_PATH=$($sln.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "SLN_PATH=$($sln.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           Write-Host "Solución detectada: $($sln.FullName)"
 
-      # Crea un App.config temporal si falta, junto a cada .csproj (NO se sube al repo)
+      # Crea App.config temporal si falta (NO se sube; solo en el runner)
       - name: Create temporary App.config if missing
         shell: pwsh
         run: |
           $csprojs = Get-ChildItem -Path "src" -Filter *.csproj -Recurse
           foreach ($p in $csprojs) {
-            $projDir = Split-Path $p.FullName
+            $projDir  = Split-Path $p.FullName
             $appConfig = Join-Path $projDir "App.config"
             if (-not (Test-Path $appConfig)) {
               Write-Host ">> Creando App.config temporal en $projDir"
-              $xml = @'
-<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-  <startup>
-    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />
-  </startup>
-  <appSettings>
-    <add key="ActiveDb" value="Docker"/>
-    <add key="AppTitulo" value="SuiteMDI-Educativa-SQLServer"/>
-  </appSettings>
-  <connectionStrings>
-    <add name="SqlDocker"
-         connectionString="Server=127.0.0.1,2333;Database=master;User ID=sa;Password=DummyPassword!;TrustServerCertificate=True;MultipleActiveResultSets=True;"
-         providerName="System.Data.SqlClient" />
-  </connectionStrings>
-</configuration>
-'@
-              Set-Content -Path $appConfig -Value $xml -Encoding UTF8
+              $xmlLines = @(
+                '<?xml version="1.0" encoding="utf-8" ?>'
+                '<configuration>'
+                '  <startup>'
+                '    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />'
+                '  </startup>'
+                '  <appSettings>'
+                '    <add key="ActiveDb" value="Docker"/>'
+                '    <add key="AppTitulo" value="SuiteMDI-Educativa-SQLServer"/>'
+                '  </appSettings>'
+                '  <connectionStrings>'
+                '    <add name="SqlDocker"'
+                '         connectionString="Server=127.0.0.1,2333;Database=master;User ID=sa;Password=DummyPassword!;TrustServerCertificate=True;MultipleActiveResultSets=True;"'
+                '         providerName="System.Data.SqlClient" />'
+                '  </connectionStrings>'
+                '</configuration>'
+              )
+              $xmlLines | Set-Content -Path $appConfig -Encoding UTF8
             }
           }
 
