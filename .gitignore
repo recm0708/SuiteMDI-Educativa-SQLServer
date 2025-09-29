@@ -69,3 +69,4 @@ $RECYCLE.BIN/
 *.mdf
 *.ldf
 *.sql~*
+scr/_gsdata_/_insync_v4.gsl
