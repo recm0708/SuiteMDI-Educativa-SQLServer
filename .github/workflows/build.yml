@@ -8,7 +8,8 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-2019  # más estable para .NET Framework clásico
+    # Para proyectos .NET Framework clásicos, este runner es más estable
+    runs-on: windows-2019
 
     steps:
       - name: Checkout
@@ -22,6 +23,7 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
+      # Detecta automáticamente tu solución bajo src/
       - name: Detect solution under src/
         id: find_sln
         shell: pwsh
@@ -31,7 +33,7 @@ jobs:
           echo "SLN_PATH=$($sln.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           Write-Host "Solución detectada: $($sln.FullName)"
 
-      # CREA App.config TEMPORAL si falta, al lado de cada .csproj
+      # Crea un App.config temporal si falta, junto a cada .csproj (NO se sube al repo)
       - name: Create temporary App.config if missing
         shell: pwsh
         run: |
