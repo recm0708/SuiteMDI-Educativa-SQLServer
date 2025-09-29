@@ -139,3 +139,8 @@ SELECT name AS DbUserName FROM sys.database_principals WHERE name = 'UsrProcesa'
 -- INSERT INTO dbo.Perfiles (NombreUsuario,ApellidoUsuario,Email) VALUES ('Test','Uno','test@ejemplo.com');
 -- SELECT TOP 1 CodigoUsuario, NombreUsuario, ApellidoUsuario, Email FROM dbo.Perfiles ORDER BY CodigoUsuario DESC;
 -- ROLLBACK TRAN; -- o COMMIT TRAN si quieres dejar el registro
+
+/* ==== OPCIONAL (DEV): normalizar contador IDENTITY de Perfiles ==== */
+DECLARE @mx INT = (SELECT ISNULL(MAX(CodigoUsuario), 999) FROM dbo.Perfiles);
+-- Siguiente insert será @mx + 1. Si no hay filas, queda en 999 -> próximo = 1000
+DBCC CHECKIDENT ('dbo.Perfiles', RESEED, @mx);
