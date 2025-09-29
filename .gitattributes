@@ -1,2 +1,19 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Normaliza fin de línea en texto
+* text=auto eol=lf
+
+# Trata imágenes como binario
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+
+# Archivos de solución/proyecto como texto
+*.sln  text
+*.cs   text
+*.csproj text
+*.config text
+*.xml  text
+*.xaml text
+*.md   text
+*.sql  text
