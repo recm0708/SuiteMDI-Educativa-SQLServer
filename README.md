@@ -201,7 +201,7 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
 - Búsqueda:
   - Dejar **Código** vacío → muestra **todos**.
   - Escribir **CódigoUsuario** (numérico) → filtra a un registro.
-- Si no ves filas, inserta un usuario con el **Script 03** o desde la app y refresca.
+- Si no ves filas, inserta un usuario con el **Script 03** y refresca.
 
 ---
 
