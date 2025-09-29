@@ -70,6 +70,46 @@ namespace bd_A7_RubenCanizares.Negocio
 
             return r; // r >= 0 = ejecutado; usa nuevoCodigo para el ID generado
         }
+        public int EliminarUsuario(int codigoUsuario)
+        {
+            CodigoError = 0; MensajeError = string.Empty;
+            int filas = 0;
+
+            try
+            {
+                using (var cn = new System.Data.SqlClient.SqlConnection(GetActiveConnectionString()))
+                using (var cmd = new System.Data.SqlClient.SqlCommand("dbo.prEliminarUsuario", cn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CodigoUsuario", System.Data.SqlDbType.Int).Value = codigoUsuario;
+
+                    // Como el SP hace DELETE y retorna @@ROWCOUNT en RETURN,
+                    // podemos inferir filas afectadas ejecutando el comando y luego consultando ReturnValue.
+                    var pReturn = cmd.Parameters.Add("@ReturnVal", System.Data.SqlDbType.Int);
+                    pReturn.Direction = System.Data.ParameterDirection.ReturnValue;
+
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+                    filas = (pReturn.Value != null && pReturn.Value != System.DBNull.Value)
+                        ? System.Convert.ToInt32(pReturn.Value)
+                        : 0;
+                }
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                CodigoError = ex.Number;
+                MensajeError = ex.Message;
+                filas = -1;
+            }
+            catch (System.Exception ex)
+            {
+                CodigoError = -1;
+                MensajeError = ex.Message;
+                filas = -1;
+            }
+
+            return filas; // 1 = eliminado, 0 = no existía, -1 = error
+        }
 
         /// <summary>
         /// Consulta usuarios usando dbo.prConsultarUsuarios.
