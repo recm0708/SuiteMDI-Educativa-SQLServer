@@ -3,10 +3,12 @@
 Todas las fechas en **YYYY-MM-DD**.
 
 ## [Unreleased]
+- SQL 01: agrega bloque **opcional (DEV)** de reseed del IDENTITY de `Perfiles` (alinear al `MAX(CodigoUsuario)`).
 - SQL 05: `prEliminarUsuario` (idempotente + RETURN @@ROWCOUNT) — completado.
 - C#: `ClsProcesosUsuarios.EliminarUsuario(int)` — integrado.
 - UI: `frmUsuarios` — botón **Eliminar** con confirmación y refresco.
 - DEV: `10_Mantenimiento_Reseed_Perfiles.sql` para alinear IDENTITY a `MAX(CodigoUsuario)`.
+
 
 
 ## [0.1.0] - 2025-09-28
@@ -35,6 +37,8 @@ Todas las fechas en **YYYY-MM-DD**.
 
 ## [0.2.0] - 2025-09-29
 ### SQL
+- **01_CrearBD_y_Tablas-mejorado.sql**
+  - Se agrega bloque opcional (DEV) para reseed del IDENTITY de `Perfiles` a `MAX(CodigoUsuario)`.
 - **03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql**
   - `dbo.prInsertarUsuario` con `@CodigoUsuario OUTPUT`.
   - Inserta `Pass` como `VARBINARY(128)` desde `VARCHAR`.

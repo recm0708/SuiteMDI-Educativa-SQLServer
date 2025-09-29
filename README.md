@@ -127,6 +127,7 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
    - Crea la BD **Ejemplo_SIN_Encripcion** y la tabla **dbo.Perfiles** (IDENTITY desde 1000).  
    - Crea **LOGIN/USER** `UsrProcesa` (rol `db_owner` para DEV).  
    - Es **idempotente** y trae **SELECT/PRUEBAS** comentadas.
+   - **Incluye** bloque **OPCIONAL (DEV)** de **reseed** del IDENTITY de `Perfiles` al `MAX(CodigoUsuario)` (para alinear consecutivos en desarrollo).
 
 2. `02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql`  
    - Crea **dbo.prValidarUsuario** (validación de acceso).  
