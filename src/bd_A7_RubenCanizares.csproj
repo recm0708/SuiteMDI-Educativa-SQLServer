@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datos\ClsConexion.cs" />
+    <Compile Include="Negocio\ClsProcesosUsuarios.cs" />
     <Compile Include="Presentacion\frmAcceso.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,7 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="Negocio\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

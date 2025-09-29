@@ -62,10 +62,5 @@ namespace bd_A7_RubenCanizares.Presentacion
                 tbPass.Focus();
             }
         }
-
-        private void btn_Cerrar_Click_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }
