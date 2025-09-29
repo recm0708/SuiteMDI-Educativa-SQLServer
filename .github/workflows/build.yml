@@ -22,10 +22,27 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
-      # Asegura la ruta correcta de la solución:
-      # Si tu .sln no se llama exactamente así, AJÚSTALO
+      # Diagnóstico: listar estructura para confirmar rutas
+      - name: List repo tree
+        shell: pwsh
+        run: |
+          Write-Host "== REPO ROOT =="
+          Get-ChildItem -Recurse -Depth 2 | Select-Object FullName
+
+      # Buscar automáticamente la primera .sln dentro de src/
+      - name: Locate solution
+        id: find_sln
+        shell: pwsh
+        run: |
+          $sln = Get-ChildItem -Path "src" -Filter *.sln -Recurse | Select-Object -First 1
+          if (-not $sln) { Write-Error "No se encontró ninguna .sln bajo 'src/'"; exit 1 }
+          echo "SLN_PATH=$($sln.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Write-Host "Solución detectada: $($sln.FullName)"
+
       - name: Restore packages
-        run: nuget restore "src/bd_A7_RubenCanizares.sln"
+        shell: pwsh
+        run: nuget restore "${{ steps.find_sln.outputs.SLN_PATH }}"
 
       - name: Build (Release)
-        run: msbuild "src/bd_A7_RubenCanizares.sln" /t:Build /p:Configuration=Release /m
+        shell: pwsh
+        run: msbuild "${{ steps.find_sln.outputs.SLN_PATH }}" /t:Build /p:Configuration=Release /m /verbosity:minimal
