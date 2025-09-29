@@ -50,7 +50,7 @@ SuiteMDI-Educativa-SQLServer/
 │   ├── 01_CrearBD_y_Tablas-mejorado.sql
 │   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
 │   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
-│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql (pendiente)
+│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql
 │   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql (pendiente)
 │   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql (pendiente)
 │   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql (pendiente)
@@ -68,11 +68,11 @@ SuiteMDI-Educativa-SQLServer/
 │   ├── Datos/                            # ClsConexion y acceso a datos (SqlClient, SPs)
 │   ├── Negocio/                          # Clases de procesos/servicios (CRUD, lógica)
 │   ├── Presentacion/                     # Formularios (MDI, Acceso, Usuarios, etc.)
-│   ├── Properties/                       # AssemblyInfo, recursos de WinForms
-│   ├── Soporte/                          # Globales, ThemeHelper, utilidades
+│   ├── Properties/                       # AssemblyInfo y recursos de WinForms
+│   ├── Soporte/                          # Globales, ThemeHelper y utilidades
 │   ├── App.config.template.config        # Plantilla (NO versionar App.config real)
 │   ├── bd_A7_RubenCanizares.csproj       # Proyecto WinForms
-│   ├── bd_A7_RubenCanizares.sln          # Solución principa
+│   ├── bd_A7_RubenCanizares.sln          # Solución principal
 │   └── Program.cs                        # Punto de entrada de la app
 │
 ├── tools/                                # Utilidades (opcional)
