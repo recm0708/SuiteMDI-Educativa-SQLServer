@@ -1,7 +1,0 @@
-2025-09-28 22:17:07: == Analizar compara las Sumas de Control de los archivos que tienen el mismo tamaño, pero diferente Fecha de Modificación
-2025-09-28 22:17:07: == Analizar compara Sumas de Control (Checksums) de cada archivo, así que se ejecutará LENTAMENTE, porque los archivos deben ser leídos para calcular sus Sumas de Control
-2025-09-28 22:17:07: -- Análisis iniciado por On File Change First Full Analyze Upon Folder Connect
-2025-09-28 22:17:07: I: Leyendo archivo de estado C:/Users/Ruben Cañizares/source/repos/bd_A7_RubenCanizares/_gsdata_/_file_state_v4._gs
-2025-09-28 22:17:07: D: Leyendo archivo de estado C:/GitHub Repositories/SuiteMDI-Educativa-SQLServer/scr/_gsdata_/_file_state_v4._gs
-2025-09-28 22:17:07: Cambios: 0, Conflictos: 0, CopiaFecha: 0, CopiaEstado: 0, Errores: 0, All: 49
-2025-09-28 22:17:07: -- Análisis completo. Tiempo 00:00:00, Velocidad: Many archivo/s
