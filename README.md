@@ -11,40 +11,42 @@ Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedur
 
 ---
 
-## Contenidos
-
+## 📚 Contenidos
 - [Estructura del repositorio](#estructura-del-repositorio)
 - [Requisitos](#requisitos)
 - [Configuración inicial](#configuración-inicial)
-- [Configuración de Base de Datos (SQL)](#configuración-de-base-de-datos-sql)
+- [Configuración de Base de Datos (SQL)](#configuracion-de-base-de-datos-sql)
 - [Variables/Secretos y seguridad](#variablessecretos-y-seguridad)
-- [Ejecución y pruebas](#ejecución-y-pruebas)
+- [Ejecución y pruebas](#ejecucion-y-pruebas)
 - [Flujo de trabajo con GitHub Desktop](#flujo-de-trabajo-con-github-desktop)
 - [Convenciones y calidad](#convenciones-y-calidad)
 - [Problemas comunes](#problemas-comunes)
+- [Vistas](#vistas)
+- [Roadmap y Releases](#roadmap-y-releases)
 - [Licencia](#licencia)
 
 ---
 
+<a name="estructura-del-repositorio"></a>
 ## 📁 Estructura del Repositorio
 
 ```
 SuiteMDI-Educativa-SQLServer/
 │
-├── .github/
-│   ├── ISSUE_TEMPLATE/                # Plantillas para crear Issues
-│   │   ├── bug_report                 # Reporte de errores (template)
-│   │   └── feature_request            # Solicitud de mejoras (template)
+├── .github/                              # Configuración de GitHub (CI, plantillas, dueños de código)
+│   ├── ISSUE_TEMPLATE/                   # Plantillas para crear Issues
+│   │   ├── bug_report                    # Reporte de errores (plantilla)
+│   │   └── feature_request               # Solicitud de mejoras (plantilla)
 │   ├── workflows/
-│   │   └── build                      # GitHub Actions: build en Windows
-│   ├── CODEOWNERS                     # Responsables por defecto de revisiones (PRs)
-│   └── PULL_REQUEST_TEMPLATE          # Plantilla de Pull Requests
+│   │   └── build                         # GitHub Actions: build en Windows
+│   ├── CODEOWNERS                        # Responsables por defecto de revisiones (PRs)
+│   └── PULL_REQUEST_TEMPLATE             # Plantilla de Pull Requests
 │
-├── assets/                            # Logos, íconos e imágenes (para UI y README)
+├── assets/                               # Logos, íconos e imágenes (para UI y README)
 │   ├── logo.png
 │   └── icons/
 │
-├── db_scripts/                        # Scripts SQL (01 … 09) con comentarios y pruebas
+├── db_scripts/                           # Scripts SQL (01 … 09) con comentarios y pruebas
 │   ├── 01_CrearBD_y_Tablas-mejorado.sql
 │   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
 │   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
@@ -71,7 +73,7 @@ SuiteMDI-Educativa-SQLServer/
 │   ├── App.config.template.config        # Plantilla (NO versionar App.config real)
 │   ├── bd_A7_RubenCanizares.csproj       # Proyecto WinForms
 │   ├── bd_A7_RubenCanizares.sln          # Solución principa
-│   └── Program.cs
+│   └── Program.cs                        # Punto de entrada de la app
 │
 ├── tools/                                # Utilidades (opcional)
 │
@@ -88,6 +90,7 @@ SuiteMDI-Educativa-SQLServer/
 
 ---
 
+<a name="requisitos"></a>
 ## ✅ Requisitos
 
 - 🧩 **Visual Studio 2022** (Enterprise) – Español  
@@ -98,6 +101,7 @@ SuiteMDI-Educativa-SQLServer/
 
 ---
 
+<a name="configuración-inicial"></a>
 ## 🛠️ Configuración Inicial
 
 1. **Clonar** el repositorio (o crear la carpeta local con GitHub Desktop):  
@@ -113,45 +117,47 @@ SuiteMDI-Educativa-SQLServer/
 
 ---
 
+<a name="configuracion-de-base-de-datos-sql"></a>
 ## 🧩 Configuración de Base de Datos (SQL)
 
 En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0.1,2333` como `sa`):
 
-1. `01_CrearBD_y_Tablas-mejorado.sql`
+1. `01_CrearBD_y_Tablas-mejorado.sql`  
    - Crea BD `Ejemplo_SIN_Encripcion` y tabla `dbo.Perfiles` (IDENTITY desde 1000).
-   - Crea **LOGIN/USER** `UsrProcesa` (rol `db_owner` para DEV).
+   - Crea **LOGIN/USER** `UsrProcesa` (rol `db_owner` para DEV).  
    - Script idempotente + pruebas comentadas.
-2. `02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql`
-   - Crea **`dbo.prValidarUsuario`**.
-   - Compara **Pass (VARBINARY)** de forma segura: `Pass = CONVERT(VARBINARY(128), @Pass)`.
+2. `02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql`  
+   - Crea **`dbo.prValidarUsuario`**.  
+   - Compara **Pass (VARBINARY)** de forma segura: `Pass = CONVERT(VARBINARY(128), @Pass)`.  
    - Incluye pruebas (comentadas) y ejemplo de inserción de usuario test.
-3. `03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql`
-   - Crea **`dbo.prInsertarUsuario`** con `@CodigoUsuario OUTPUT`.
-   - Inserta Pass como `VARBINARY(128)` desde `VARCHAR`.
+3. `03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql`  
+   - Crea **`dbo.prInsertarUsuario`** con `@CodigoUsuario OUTPUT`.  
+   - Inserta Pass como `VARBINARY(128)` desde `VARCHAR`.  
    - Pruebas para insertar y validar login.
-4. `04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql`  *(pendiente)*
-5. `05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql` *(pendiente)*
-6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql` *(pendiente)*
-7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*
-8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*
+4. `04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql`  *(pendiente)*  
+5. `05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql` *(pendiente)*  
+6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql` *(pendiente)*  
+7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*  
+8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*  
 9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
 
 ---
 
-✅ **Estado de scripts**
-- [x] 01_CrearBD_y_Tablas-mejorado.sql
-- [x] 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
-- [x] 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
-- [ ] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql
-- [ ] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql
-- [ ] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql
-- [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
-- [ ] 08_TablasDelAplicativo-mejorado.sql
-- [ ] 09_ProcedimientosAplicativo-mejorado.sql
+### ✅ Estado de Scripts
+- [x] 01_CrearBD_y_Tablas-mejorado.sql  
+- [x] 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql  
+- [x] 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql  
+- [ ] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql  
+- [ ] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
+- [ ] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql  
+- [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql  
+- [ ] 08_TablasDelAplicativo-mejorado.sql  
+- [ ] 09_ProcedimientosAplicativo-mejorado.sql  
 
 ---
 
-## 🔐 Variables/Secretos y seguridad
+<a name="variablessecretos-y-seguridad"></a>
+## 🔐 Variables/Secretos y Seguridad
 
 - ❌ **No subir `App.config` real** al repositorio (`.gitignore` ya bloquea `src/**/App.config`).  
 - ✅ Se versiona **`App.config.example`** con placeholders (ej. `TU_PASSWORD_SA`).  
@@ -160,7 +166,8 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
-## ▶️ Ejecución y pruebas
+<a name="ejecucion-y-pruebas"></a>
+## ▶️ Ejecución y Pruebas
 
 1. **Compilar** en VS: `Compilar → Compilar solución`.  
 2. **Ejecutar**: `Depurar → Iniciar sin depuración (Ctrl+F5)`.  
@@ -172,6 +179,7 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
+<a name="flujo-de-trabajo-con-github-desktop"></a>
 ## 🔄 Flujo de trabajo con GitHub Desktop
 
 - **Commits** en español (Summary obligatorio).  
@@ -183,7 +191,8 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
-## 🧭 Convenciones y calidad
+<a name="convenciones-y-calidad"></a>
+## 🧭 Convenciones y Calidad
 
 - 🧱 **Capas**: `Presentacion`, `Negocio`, `Datos`, `Soporte`.  
 - 📜 **SQL**: idempotentes, cabecera con objetivo y **pruebas comentadas**.  
@@ -193,7 +202,8 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
-## 🧰 Problemas comunes
+<a name="problemas-comunes"></a>
+## 🧰 Problemas Comunes
 
 - ⏱️ **Timeout / no conecta**: verificar contenedor Docker y puerto `2333` mapeado.  
 - 🔑 **Login failed for user 'sa' (18456)**: credenciales/política de contraseñas.  
@@ -202,6 +212,7 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
+<a name="vistas"></a>
 ## 📸 Vistas
 
 | Pantalla | Imagen |
@@ -211,6 +222,18 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
+<a name="roadmap-y-releases"></a>
+## 🗺️ Roadmap y Releases
+
+- **Roadmap**: ver tablero Kanban en la pestaña **Projects** (Roadmap SuiteMDI).  
+- **Releases**:  
+  - `v0.1.0` — Parte A (estructura + login + scripts 01–03).  
+  - `v0.2.0` — Parte B (CRUD completo).  
+  - `v0.3.0` — Parte C (mejoras finales y pulido).
+
+---
+
+<a name="licencia"></a>
 ## 📄 Licencia
 
 Este proyecto está bajo **MIT** (bilingüe). Ver [`LICENSE`](./LICENSE).  
