@@ -120,26 +120,45 @@ SuiteMDI-Educativa-SQLServer/
 <a name="configuracion-de-base-de-datos-sql"></a>
 ## 🧩 Configuración de Base de Datos (SQL)
 
-En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0.1,2333` como `sa`):
+Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conectado a `127.0.0.1,2333` como `sa` (o el usuario que definas).  
+> Sugerencia: ejecuta cada script por bloques y revisa las **pruebas comentadas** al final de cada uno.
 
 1. `01_CrearBD_y_Tablas-mejorado.sql`  
-   - Crea BD `Ejemplo_SIN_Encripcion` y tabla `dbo.Perfiles` (IDENTITY desde 1000).
+   - Crea la BD **Ejemplo_SIN_Encripcion** y la tabla **dbo.Perfiles** (IDENTITY desde 1000).  
    - Crea **LOGIN/USER** `UsrProcesa` (rol `db_owner` para DEV).  
-   - Script idempotente + pruebas comentadas.
+   - Es **idempotente** y trae **SELECT/PRUEBAS** comentadas.
+
 2. `02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql`  
-   - Crea **`dbo.prValidarUsuario`**.  
-   - Compara **Pass (VARBINARY)** de forma segura: `Pass = CONVERT(VARBINARY(128), @Pass)`.  
-   - Incluye pruebas (comentadas) y ejemplo de inserción de usuario test.
+   - Crea **dbo.prValidarUsuario** (validación de acceso).  
+   - Compara **Pass** como `VARBINARY(128)` vía `CONVERT` (sin encriptar realmente).  
+   - Incluye pruebas de ejemplo.
+
 3. `03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql`  
-   - Crea **`dbo.prInsertarUsuario`** con `@CodigoUsuario OUTPUT`.  
-   - Inserta Pass como `VARBINARY(128)` desde `VARCHAR`.  
-   - Pruebas para insertar y validar login.
-4. `04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql`  *(pendiente)*  
+   - Crea **dbo.prInsertarUsuario** con **`@CodigoUsuario OUTPUT`**.  
+   - Inserta `Pass` como `VARBINARY(128)` desde `VARCHAR`.  
+   - Pruebas: inserción y validación con `prValidarUsuario`.
+
+4. `04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql`  
+   - Crea **dbo.prConsultarUsuarios**.  
+   - `@CodigoUsuario = 0` → devuelve **todos**; `> 0` → devuelve **uno**.  
+   - Nunca devuelve **Pass**; incluye `ORDER BY CodigoUsuario`.  
+
 5. `05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql` *(pendiente)*  
 6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql` *(pendiente)*  
 7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*  
 8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*  
 9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
+
+**Cómo probar rápido (SSMS):**
+- Conexión: **Servidor** `127.0.0.1,2333` · **Usuario** `sa` · **Password** tu contraseña.  
+- Verifica existencia de objetos:  
+  ```sql
+  USE Ejemplo_SIN_Encripcion;
+  SELECT DB_NAME() AS DB;
+  SELECT OBJECT_ID('dbo.Perfiles','U')  AS Perfiles;
+  SELECT OBJECT_ID('dbo.prValidarUsuario','P') AS prValidarUsuario;
+  SELECT OBJECT_ID('dbo.prInsertarUsuario','P') AS prInsertarUsuario;
+  SELECT OBJECT_ID('dbo.prConsultarUsuarios','P') AS prConsultarUsuarios;
 
 ---
 
@@ -226,8 +245,6 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 |---|---|
 | Inicio de sesión | ![frmAcceso](./docs/capturas/frmAcceso.png) |
 | MDI Principal | ![frmMDI](./docs/capturas/frmMDI.png) |
-| Inicio de sesión| ![frmAcceso](./docs/capturas/frmAcceso.png) |
-| MDI Principal   | ![frmMDI](./docs/capturas/frmMDI.png)       |
 | Usuarios        | ![frmUsuarios](./docs/capturas/frmUsuarios.png) |
 
 ---
