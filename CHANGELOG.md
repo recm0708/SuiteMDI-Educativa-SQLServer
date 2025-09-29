@@ -3,10 +3,11 @@
 Todas las fechas en **YYYY-MM-DD**.
 
 ## [Unreleased]
-- UI: columnas manuales para `dgvUsuarios` (presentación profesional).
-- SQL: 05–06 (eliminar/modificar) — diseño y pruebas.
-- Negocio: `EliminarUsuario(int)`, `ModificarUsuario(...)`.
-- UI: botón Eliminar, edición y validaciones.
+- SQL 05: `prEliminarUsuario` (idempotente + RETURN @@ROWCOUNT) — completado.
+- C#: `ClsProcesosUsuarios.EliminarUsuario(int)` — integrado.
+- UI: `frmUsuarios` — botón **Eliminar** con confirmación y refresco.
+- DEV: `10_Mantenimiento_Reseed_Perfiles.sql` para alinear IDENTITY a `MAX(CodigoUsuario)`.
+
 
 ## [0.1.0] - 2025-09-28
 ### Añadido
@@ -50,3 +51,6 @@ Todas las fechas en **YYYY-MM-DD**.
 ### Docs
 - README: estado de scripts y guía de uso de `frmUsuarios`.
 - CHANGELOG: entradas consolidadas y correcciones menores para 0.2.0.
+
+### Notas
+- Se agrega script de mantenimiento **10** (DEV) para reseed del IDENTITY de `Perfiles`.
