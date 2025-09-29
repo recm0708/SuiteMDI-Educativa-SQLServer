@@ -3,10 +3,9 @@
 Todas las fechas en **YYYY-MM-DD**.
 
 ## [Unreleased]
-- SQL 04: `prConsultarUsuarios` (idempotente + pruebas) — *pendiente*.
-- UI: `frmUsuarios` (grilla + CRUD completo) — *pendiente*.
-- Seguridad: opción de usar usuario `UsrProcesa` en App.config — *pendiente*.
-- Docs: ampliar secciones en README para Parte B/C — *pendiente*.
+- SQL 04: `prConsultarUsuarios` (idempotente + pruebas) — **completado**.
+- UI: `frmUsuarios` (lista + búsqueda por Código y refresco) — **completado**.
+
 
 ## [0.1.0] - 2025-09-29
 ### Añadido

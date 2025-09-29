@@ -143,11 +143,11 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 
 ---
 
-### ✅ Estado de Scripts
+### ✅ Estado de scripts
 - [x] 01_CrearBD_y_Tablas-mejorado.sql  
 - [x] 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql  
 - [x] 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql  
-- [ ] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql  
+- [x] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql  
 - [ ] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
 - [ ] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql  
 - [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql  
@@ -176,6 +176,13 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
    - **Parte B (avanzada)**: validación real con `dbo.prValidarUsuario`.  
 4. **MDI** se abre solo si `Globales.gblInicioCorrecto == 1`.  
 5. CRUD de usuarios (cuando esté activo): **frmUsuarios** con grilla y acciones (Consultar/Insertar/Modificar/Eliminar/Cambiar Password).
+
+### 📄 Consulta de usuarios (frmUsuarios)
+- Abrir desde **MDI**: **Catálogos → Usuarios**.
+- Búsqueda:
+  - Dejar **Código** vacío → muestra **todos**.
+  - Escribir **CódigoUsuario** (numérico) → filtra a un registro.
+- Si no ves filas, inserta un usuario con el **Script 03** o desde la app y refresca.
 
 ---
 
@@ -219,6 +226,9 @@ En **/db_scripts** ejecuta en **este orden** con **SSMS** (conectando a `127.0.0
 |---|---|
 | Inicio de sesión | ![frmAcceso](./docs/capturas/frmAcceso.png) |
 | MDI Principal | ![frmMDI](./docs/capturas/frmMDI.png) |
+| Inicio de sesión| ![frmAcceso](./docs/capturas/frmAcceso.png) |
+| MDI Principal   | ![frmMDI](./docs/capturas/frmMDI.png)       |
+| Usuarios        | ![frmUsuarios](./docs/capturas/frmUsuarios.png) |
 
 ---
 
