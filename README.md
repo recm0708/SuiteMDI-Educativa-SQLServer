@@ -46,7 +46,7 @@ SuiteMDI-Educativa-SQLServer/
 │
 ├── db_scripts/                        # Scripts SQL (01 … 09) con comentarios y pruebas
 │   ├── 01_CrearBD_y_Tablas-mejorado.sql
-│   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejoradoql
+│   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
 │   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
 │   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql (pendiente)
 │   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql (pendiente)
