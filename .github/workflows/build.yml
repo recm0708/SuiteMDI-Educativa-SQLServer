@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-latest
+    runs-on: windows-2019  # más estable para .NET Framework clásico
 
     steps:
       - name: Checkout
@@ -22,15 +22,7 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
-      # Diagnóstico: listar estructura para confirmar rutas
-      - name: List repo tree
-        shell: pwsh
-        run: |
-          Write-Host "== REPO ROOT =="
-          Get-ChildItem -Recurse -Depth 2 | Select-Object FullName
-
-      # Buscar automáticamente la primera .sln dentro de src/
-      - name: Locate solution
+      - name: Detect solution under src/
         id: find_sln
         shell: pwsh
         run: |
@@ -38,6 +30,36 @@ jobs:
           if (-not $sln) { Write-Error "No se encontró ninguna .sln bajo 'src/'"; exit 1 }
           echo "SLN_PATH=$($sln.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           Write-Host "Solución detectada: $($sln.FullName)"
+
+      # CREA App.config TEMPORAL si falta, al lado de cada .csproj
+      - name: Create temporary App.config if missing
+        shell: pwsh
+        run: |
+          $csprojs = Get-ChildItem -Path "src" -Filter *.csproj -Recurse
+          foreach ($p in $csprojs) {
+            $projDir = Split-Path $p.FullName
+            $appConfig = Join-Path $projDir "App.config"
+            if (-not (Test-Path $appConfig)) {
+              Write-Host ">> Creando App.config temporal en $projDir"
+              @"
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />
+  </startup>
+  <appSettings>
+    <add key="ActiveDb" value="Docker"/>
+    <add key="AppTitulo" value="SuiteMDI-Educativa-SQLServer"/>
+  </appSettings>
+  <connectionStrings>
+    <add name="SqlDocker"
+         connectionString="Server=127.0.0.1,2333;Database=master;User ID=sa;Password=DummyPassword!;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+         providerName="System.Data.SqlClient" />
+  </connectionStrings>
+</configuration>
+"@ | Out-File -FilePath $appConfig -Encoding UTF8
+            }
+          }
 
       - name: Restore packages
         shell: pwsh
