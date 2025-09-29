@@ -1,4 +1,7 @@
 # SuiteMDI-Educativa-SQLServer ✨
+[![Build](https://github.com/recm0708/SuiteMDI-Educativa-SQLServer/actions/workflows/build.yml/badge.svg)](https://github.com/tu-usuario/SuiteMDI-Educativa-SQLServer/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 
 **Descripción (ES):**  
 Aplicación educativa en **C# WinForms (.NET Framework 4.8)** con interfaz **MDI**, **inicio de sesión** validado por SP y **CRUD de usuarios** sobre **SQL Server** (prioridad **Docker**, opción **Local**). Se basa en guías PDF (Partes A/B/C) y se personaliza con estilos, organización por capas y buenas prácticas (scripts SQL idempotentes, control de configuración, repo profesional).
@@ -90,7 +93,7 @@ SuiteMDI-Educativa-SQLServer/
 2. **Abrir en VS** la solución en `/src/`.
 
 3. **Crear** tu archivo `App.config` desde la plantilla:
-   - Copia `src/bd_A7_RubenCanizares/App.config.example` → renómbralo a **`App.config`**.
+   - Copia `src/bd_A7_RubenCanizares/App.config.template.config` → renómbralo a **`App.config`**.
    - Edita la contraseña real de SQL en `SqlDocker` (y `SqlLocal` si lo usas).
 
 4. **Docker/SQL** en marcha:
