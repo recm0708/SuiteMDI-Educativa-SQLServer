@@ -6,9 +6,6 @@
 **Descripción (ES):**  
 Aplicación educativa en **C# WinForms (.NET Framework 4.8)** con interfaz **MDI**, **inicio de sesión** validado por SP y **CRUD de usuarios** sobre **SQL Server** (prioridad **Docker**, opción **Local**). Se basa en guías PDF (Partes A/B/C) y se personaliza con estilos, organización por capas y buenas prácticas (scripts SQL idempotentes, control de configuración, repo profesional).
 
-**Brief (EN):**  
-Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedure) and user CRUD against SQL Server (Docker first, Local fallback). Based on course PDFs with quality-of-life improvements and a professional repository setup.
-
 ---
 
 ## 📚 Contenidos
@@ -190,7 +187,7 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 ## 🔐 Variables/Secretos y Seguridad
 
 - ❌ **No subir `App.config` real** al repositorio (`.gitignore` ya bloquea `src/**/App.config`).  
-- ✅ Se versiona **`App.config.temolate.config`** con placeholders (ej. `TU_PASSWORD_SA`).  
+- ✅ Se versiona **`App.config.template.config`** con placeholders (ej. `TU_PASSWORD_SA`).  
 - 🖥️ En cada PC, crea tu `App.config` local desde la plantilla y coloca tu contraseña real.  
 - 🏭 Producción: **usuarios no `sa`**, permisos mínimos y **almacén de secretos** (variables de entorno, Key Vault, etc.).
 
