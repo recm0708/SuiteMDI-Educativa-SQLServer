@@ -49,4 +49,4 @@ Todas las fechas en **YYYY-MM-DD**.
 
 ### Docs
 - README: estado de scripts y guía de uso de `frmUsuarios`.
-- CHANGELOG: entradas consolidadas y correcciones menores.
+- CHANGELOG: entradas consolidadas y correcciones menores para 0.2.0.
