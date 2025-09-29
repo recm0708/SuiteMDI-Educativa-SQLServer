@@ -27,47 +27,64 @@ Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedur
 ---
 
 ## 📁 Estructura del Repositorio
+
 ```
 SuiteMDI-Educativa-SQLServer/
 │
-├── src/                               # Solución y proyecto de Visual Studio (WinForms .NET 4.8)
-│   ├── bd_A7_RubenCanizares.sln       # Solución principal
-│   └── bd_A7_RubenCanizares/          # Proyecto WinForms
-│       ├── App.config.example         # Plantilla (no versionar App.config real)
-│       ├── Presentacion/              # Formularios (MDI, Acceso, Usuarios, etc.)
-│       ├── Datos/                     # ClsConexion y acceso a datos (SqlClient, SPs)
-│       ├── Negocio/                   # Clases de procesos/servicios (CRUD, lógica)
-│       ├── Soporte/                   # Globales, ThemeHelper, utilidades
-│       └── Properties/                # AssemblyInfo, recursos de WinForms
-│
-├── db_scripts/                        # Scripts SQL (01 … 09) con comentarios y pruebas
-│   ├── 01_CrearBD_y_Tablas.sql
-│   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion.sql
-│   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion.sql
-│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario.sql
-│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario.sql
-│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario.sql
-│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion.sql
-│   ├── 08_TablasDelAplicativo.sql
-│   └── 09_ProcedimientosAplicativo.sql
-│
-├── docs/                              # Documentación, capturas y diagramas
-│   ├── capturas/
-│   └── diagramas/
+├── .github/                           # Scripts SQL (01 … 09) con comentarios y pruebas
+│   ├── ISSUE_TEMPLATE/                # Plantillas para crear Issues
+│   │   ├── bug_report                 # Reporte de errores (template)
+│   │   └── feature_request            # Solicitud de mejoras (template)
+│   ├── workflows/
+│   │   └── build                      # Workflow de build (Actions) - archivo .yml
+│   ├── CODEOWNERS                     # Responsables por defecto de revisiones (PRs)
+│   └── PULL_REQUEST_TEMPLATE          # Plantilla para Pull Requests
 │
 ├── assets/                            # Logos, íconos e imágenes (para UI y README)
 │   ├── logo.png
 │   └── icons/
 │
-├── tools/                             # Utilidades (opcional)
+├── db_scripts/                        # Scripts SQL (01 … 09) con comentarios y pruebas
+│   ├── 01_CrearBD_y_Tablas-mejorado.sql
+│   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejoradoql
+│   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
+│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql
+│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql
+│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql
+│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
+│   ├── 08_TablasDelAplicativo-mejorado.sql
+│   └── 09_ProcedimientosAplicativo-mejorado.sql
+│
+├── docs/                                 # Documentación, capturas y diagramas
+│   ├── capturas/
+│   │   ├── frmAcceso.png
+│   │   ├── frmMDI.png
+│   │   └── ...
+│   └── diagramas/
+│       └── ...
+│
+├── src/                                  # Solución y proyecto de Visual Studio (WinForms .NET 4.8)
+│   ├── Assets/                           # Recursos internos del proyecto (iconos, imágenes)
+│   ├── Datos/                            # ClsConexion y acceso a datos (SqlClient, SPs)
+│   ├── Negocio/                          # Clases de procesos/servicios (CRUD, lógica)
+│   ├── Presentacion/                     # Formularios (MDI, Acceso, Usuarios, etc.)
+│   ├── Properties/                       # AssemblyInfo, recursos de WinForms
+│   ├── Soporte/                          # Globales, ThemeHelper, utilidades
+│   ├── App.config.template.config        # Plantilla (no versionar App.config real)
+│   ├── bd_A7_RubenCanizares.csproj       # Proyecto WinForms
+│   ├── bd_A7_RubenCanizares.sln          # Solución principa
+│   └── Program.cs
+│
+├── tools/                                # Utilidades (opcional)
 │   └── ...
 │
-├── .gitignore                         # Ignora src/_gsdata_/ y src/**/App.config, entre otros
-├── .gitattributes                     # Normaliza fin de línea y tipos de archivo
-├── LICENSE                            # MIT (bilingüe)
-├── SECURITY.md                        # Política de seguridad y manejo de secretos
-├── README.md                          # Este archivo
-└── CHANGELOG.md                       # Historial de cambios (opcional)
+├── .gitattributes                        # Normaliza fin de línea y tipos de archivo
+├── .gitignore                            # Ignora src/_gsdata_/ y src/**/App.config, entre otros
+├── CHANGELOG.md                          # Historial de cambios (opcional)
+├── CONTRIBUTING.md                       # Guía para contribuir (issues, PRs, estilo)
+├── LICENSE                               # MIT (bilingüe)
+├── README.md                             # Este archivo
+└── SECURITY.md                           # Política de seguridad y manejo de secretos
 
 ```
 
