@@ -1,4 +1,4 @@
-# SuiteMDI-Educativa-SQLServer
+# SuiteMDI-Educativa-SQLServer ✨
 
 **Descripción (ES):**  
 Aplicación educativa en **C# WinForms (.NET Framework 4.8)** con interfaz **MDI**, **inicio de sesión** validado por SP y **CRUD de usuarios** sobre **SQL Server** (prioridad **Docker**, opción **Local**). Se basa en guías PDF (Partes A/B/C) y se personaliza con estilos, organización por capas y buenas prácticas (scripts SQL idempotentes, control de configuración, repo profesional).
@@ -23,28 +23,66 @@ Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedur
 
 ---
 
-## Estructura del repositorio
-/assets      → logos, íconos e imágenes
-/db_scripts  → scripts SQL (01 … 09) con comentarios y pruebas
-/docs        → documentación, capturas, diagramas
-/src         → solución y proyecto de Visual Studio (WinForms .NET 4.8)
-/tools       → utilidades (opcional)
+## 📁 Estructura del Repositorio
+```
+SuiteMDI-Educativa-SQLServer/
+│
+├── src/                               # Solución y proyecto de Visual Studio (WinForms .NET 4.8)
+│   ├── bd_A7_RubenCanizares.sln       # Solución principal
+│   └── bd_A7_RubenCanizares/          # Proyecto WinForms
+│       ├── App.config.example         # Plantilla (no versionar App.config real)
+│       ├── Presentacion/              # Formularios (MDI, Acceso, Usuarios, etc.)
+│       ├── Datos/                     # ClsConexion y acceso a datos (SqlClient, SPs)
+│       ├── Negocio/                   # Clases de procesos/servicios (CRUD, lógica)
+│       ├── Soporte/                   # Globales, ThemeHelper, utilidades
+│       └── Properties/                # AssemblyInfo, recursos de WinForms
+│
+├── db_scripts/                        # Scripts SQL (01 … 09) con comentarios y pruebas
+│   ├── 01_CrearBD_y_Tablas.sql
+│   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion.sql
+│   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion.sql
+│   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario.sql
+│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario.sql
+│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario.sql
+│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion.sql
+│   ├── 08_TablasDelAplicativo.sql
+│   └── 09_ProcedimientosAplicativo.sql
+│
+├── docs/                              # Documentación, capturas y diagramas
+│   ├── capturas/
+│   └── diagramas/
+│
+├── assets/                            # Logos, íconos e imágenes (para UI y README)
+│   ├── logo.png
+│   └── icons/
+│
+├── tools/                             # Utilidades (opcional)
+│   └── ...
+│
+├── .gitignore                         # Ignora src/_gsdata_/ y src/**/App.config, entre otros
+├── .gitattributes                     # Normaliza fin de línea y tipos de archivo
+├── LICENSE                            # MIT (bilingüe)
+├── SECURITY.md                        # Política de seguridad y manejo de secretos
+├── README.md                          # Este archivo
+└── CHANGELOG.md                       # Historial de cambios (opcional)
 
-> **No se versiona** ningún `App.config` real; se usa plantilla `App.config.example`.
+```
+
+> 🔒 **No se versiona** ningún `App.config` real; se usa plantilla `App.config.template.config`.
 
 ---
 
-## Requisitos
+## ✅ Requisitos
 
-- **Visual Studio 2022** (Enterprise) en **español**
-- **.NET Framework 4.8**
-- **SQL Server 2022 en Docker** (puerto expuesto `127.0.0.1,2333`)
-- **SSMS** (SQL Server Management Studio)
-- **GitHub Desktop** (para sincronizar entre PCs)
+- 🧩 **Visual Studio 2022** (Enterprise) – Español  
+- 🧱 **.NET Framework 4.8**  
+- 🐳 **SQL Server 2022 en Docker** (puerto `127.0.0.1,2333`)  
+- 🗄️ **SSMS** (SQL Server Management Studio)  
+- 🔁 **GitHub Desktop** (para sincronizar entre PCs)
 
 ---
 
-## Configuración inicial
+## 🛠️ Configuración Inicial
 
 1. **Clonar** el repositorio (o crear la carpeta local e inicializar con GitHub Desktop):  
    `C:\GitHub Repositories\SuiteMDI-Educativa-SQLServer\`
@@ -63,7 +101,7 @@ Educational C# WinForms (.NET Framework 4.8) MDI app with login (stored procedur
 
 ---
 
-## Configuración de Base de Datos (SQL)
+## 🧩 Configuración de Base de Datos (SQL)
 
 En **/db_scripts** encontrarás los scripts en **este orden**:
 
@@ -85,20 +123,20 @@ En **/db_scripts** encontrarás los scripts en **este orden**:
 8. `08_TablasDelAplicativo.sql`  
 9. `09_ProcedimientosAplicativo.sql`
 
-> **Ejecución (SSMS):** Conéctate a `127.0.0.1,2333` con `sa`. Abre y ejecuta cada script **en orden**. Revisa los **SELECT / pruebas** al final de cada uno (comentadas) para validar.
+> ▶️ **Ejecución (SSMS):** Conéctate a `127.0.0.1,2333` con `sa`. Abre y ejecuta cada script **en orden**. Revisa los **SELECT / pruebas** al final de cada uno (comentadas) para validar.
 
 ---
 
-## Variables/Secretos y seguridad
+## 🔐 Variables/Secretos y Seguridad
 
-- **No subir `App.config` real** al repositorio (está bloqueado en `.gitignore`).  
-- Se versiona **`App.config.example`** con placeholders (e.g., `TU_PASSWORD_SA`).
-- En cada PC, crea tu `App.config` local desde la plantilla y coloca la contraseña real.
-- Para producción, usa **usuarios distintos** a `sa`, **mínimos permisos**, y considera un **almacén de secretos** (Azure Key Vault, variables de entorno, etc.).
+- ❌ **No subir `App.config` real** al repositorio (está bloqueado en `.gitignore`).  
+- ✅ Se versiona **`App.config.example`** con placeholders (e.g., `TU_PASSWORD_SA`).
+- 🖥️ En cada PC, crea tu `App.config` local desde la plantilla y coloca la contraseña real.
+- 🏭 Para producción, usa **usuarios distintos** a `sa`, **mínimos permisos**, y considera un **almacén de secretos** (Azure Key Vault, variables de entorno, etc.).
 
 ---
 
-## Ejecución y pruebas
+## ▶️ Ejecución y Pruebas
 
 1. **Compilar** en VS: `Compilar → Compilar solución`.  
 2. **Ejecutar**: `Depurar → Iniciar sin depuración (Ctrl+F5)`.  
@@ -110,7 +148,7 @@ En **/db_scripts** encontrarás los scripts en **este orden**:
 
 ---
 
-## Flujo de trabajo con GitHub Desktop
+## 🔄 Flujo de trabajo con GitHub Desktop
 
 - **Primer commit / publicación**:  
   - Agrega/edita archivos (estructura, scripts, plantillas).  
@@ -123,29 +161,30 @@ En **/db_scripts** encontrarás los scripts en **este orden**:
   - Trabaja → **Commit** con mensajes claros en español → **Push**.  
   - En la otra PC → **Pull** para actualizar → copiar `App.config.example` a `App.config` si no existe.
 
-> `.gitignore` evita subir `src/**/App.config` y la carpeta oculta `src/_gsdata_/`.
+> 🧹 `.gitignore` evita subir `src/**/App.config` y la carpeta oculta `src/_gsdata_/`.
 
 ---
 
-## Convenciones y calidad
+## 🧭 Convenciones y Calidad
 
-- **Capas**: `Presentacion`, `Negocio`, `Datos`, `Soporte`.  
-- **Scripts SQL**: idempotentes, con comentarios de cabecera y **pruebas** (comentadas) al final.  
-- **Errores**: manejo con mensajes claros (códigos de SQL y texto).  
-- **Estilo visual**: helper de tema (colores, botones), assets en `/assets`.  
-- **Código C#**: comentarios donde haya reglas de negocio o decisiones no triviales.
-
----
-
-## Problemas comunes
-
-- **Timeout / no conecta**: verificar contenedor Docker arriba y puerto `2333` mapeado.  
-- **Login failed for user 'sa' (18456)**: credenciales incorrectas o política de contraseñas.  
-- **No encuentra SP**: ejecutar **scripts 01–09** en orden, revisar `USE` de la BD y `OBJECT_ID`.  
-- **Diseñador WinForms falla por eventos inexistentes**: abrir `*.Designer.cs` y eliminar líneas de `+= ...Click` huérfanas.
+- 🧱 **Capas**: `Presentacion`, `Negocio`, `Datos`, `Soporte`.  
+- 📜 **SQL**: scripts idempotentes, cabecera con objetivo y **pruebas comentadas**.  
+- 🧯 **Errores**: mensajes claros (código y texto).  
+- 🎨 **Estilo visual**: helper de tema (colores/botones), assets en `/assets`.  
+- ✍️ **C#**: comentarios donde haya reglas de negocio o decisiones no triviales.
 
 ---
 
-## Licencia
+## 🧰 Problemas Comune
 
-Este proyecto está bajo **MIT** (bilingüe). Ver [`LICENSE`](./LICENSE).
+- ⏱️ **Timeout / no conecta**: verificar contenedor Docker arriba y puerto `2333` mapeado.  
+- 🔑 **Login failed for user 'sa' (18456)**: credenciales incorrectas o política de contraseñas.  
+- ❓ **No encuentra SP**: ejecutar **scripts 01–09** en orden, revisar `USE` de la BD y `OBJECT_ID`.  
+- 🧩 **Diseñador WinForms falla por eventos inexistentes**: abrir `*.Designer.cs` y eliminar líneas de `+= ...Click` huérfanas.
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo **MIT** (bilingüe). Ver [`LICENSE`](./LICENSE).  
+¡Gracias por usar y contribuir a **SuiteMDI-Educativa-SQLServer**! 🙌
