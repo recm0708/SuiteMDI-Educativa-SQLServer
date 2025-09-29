@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-windows:
-    # Para proyectos .NET Framework clásicos, este runner es más estable
+    # Para .NET Framework clásico, este runner es más estable
     runs-on: windows-2019
 
     steps:
@@ -43,7 +43,7 @@ jobs:
             $appConfig = Join-Path $projDir "App.config"
             if (-not (Test-Path $appConfig)) {
               Write-Host ">> Creando App.config temporal en $projDir"
-              @"
+              $xml = @'
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <startup>
@@ -59,7 +59,8 @@ jobs:
          providerName="System.Data.SqlClient" />
   </connectionStrings>
 </configuration>
-"@ | Out-File -FilePath $appConfig -Encoding UTF8
+'@
+              Set-Content -Path $appConfig -Value $xml -Encoding UTF8
             }
           }
 
