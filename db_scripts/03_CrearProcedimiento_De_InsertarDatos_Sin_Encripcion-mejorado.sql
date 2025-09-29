@@ -1,7 +1,7 @@
 USE [Ejemplo_SIN_Encripcion];
 GO
 /* =============================================================================
-   Script: 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion.sql
+   Script: 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
    Proyecto: SuiteMDI-Educativa-SQLServer
    Objetivo:
      - Crear el SP dbo.prInsertarUsuario para insertar en dbo.Perfiles y devolver

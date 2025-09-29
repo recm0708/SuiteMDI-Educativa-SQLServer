@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Configuration;            // OJO: Agregar referencia a System.Configuration si no está
+using System.Configuration;            // Asegúrate de tener referencia a System.Configuration
 using System.Data;
 using System.Data.SqlClient;
 
@@ -7,11 +7,11 @@ namespace bd_A7_RubenCanizares.Negocio
 {
     public class ClsProcesosUsuarios
     {
-        // Para exponer errores al formulario si algo sale mal
+        // Exposición de errores al exterior (formularios)
         public int CodigoError { get; private set; }
         public string MensajeError { get; private set; }
 
-        // Obtiene la cadena de conexión activa leyendo App.config (ActiveDb: Docker/Local)
+        // Lee la cadena activa desde App.config (ActiveDb = Docker/Local)
         private string GetActiveConnectionString()
         {
             var active = ConfigurationManager.AppSettings["ActiveDb"] ?? "Docker";
@@ -23,7 +23,7 @@ namespace bd_A7_RubenCanizares.Negocio
         }
 
         /// <summary>
-        /// Inserta un usuario usando dbo.prInsertarUsuario y retorna el nuevo Código (IDENTITY).
+        /// Inserta un usuario usando dbo.prInsertarUsuario y retorna el nuevo Código (IDENTITY) por parámetro out.
         /// </summary>
         public int InsertarUsuario(
             string nombre, string segundoNombre, string apellido, string segundoApellido,
@@ -69,6 +69,43 @@ namespace bd_A7_RubenCanizares.Negocio
             }
 
             return r; // r >= 0 = ejecutado; usa nuevoCodigo para el ID generado
+        }
+
+        /// <summary>
+        /// Consulta usuarios usando dbo.prConsultarUsuarios.
+        /// codigoUsuario = 0 devuelve todos; >0 devuelve un registro (si existe).
+        /// Retorna DataTable listo para enlazar a un DataGridView.
+        /// </summary>
+        public DataTable ConsultarUsuarios(int codigoUsuario = 0)
+        {
+            CodigoError = 0; MensajeError = string.Empty;
+            var dt = new DataTable();
+
+            try
+            {
+                using (var cn = new SqlConnection(GetActiveConnectionString()))
+                using (var cmd = new SqlCommand("dbo.prConsultarUsuarios", cn))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CodigoUsuario", SqlDbType.Int).Value = codigoUsuario;
+
+                    cn.Open();
+                    da.Fill(dt);
+                }
+            }
+            catch (SqlException ex)
+            {
+                CodigoError = ex.Number;
+                MensajeError = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                CodigoError = -1;
+                MensajeError = ex.Message;
+            }
+
+            return dt;
         }
     }
 }

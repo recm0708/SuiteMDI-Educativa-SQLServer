@@ -12,7 +12,7 @@ namespace bd_A7_RubenCanizares
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Arranca en frmMDI, que abre el frmAcceso modal
+            // Si manejas login antes del MDI, llamarías frmAcceso aquí y, si OK, abrir frmMDI.
             Application.Run(new frmMDI());
         }
     }

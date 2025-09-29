@@ -36,5 +36,31 @@ namespace bd_A7_RubenCanizares.Presentacion
                 this.Close();
             }
         }
+
+        private void mnuUsuarios_Click(object sender, EventArgs e)
+        {
+            // Diagnóstico: si no ves este mensaje, el evento no está conectado.
+            // Puedes dejarlo temporalmente para probar.
+            // MessageBox.Show("Click Usuarios capturado", "MDI");
+
+            // Evitar abrir múltiples instancias
+            foreach (Form child in this.MdiChildren)
+            {
+                if (child is bd_A7_RubenCanizares.Presentacion.frmUsuarios)
+                {
+                    child.Activate();
+                    return;
+                }
+            }
+
+            var frm = new bd_A7_RubenCanizares.Presentacion.frmUsuarios();
+            frm.MdiParent = this;   // <- importante para abrir dentro del MDI
+            frm.Show();
+        }
+
+        private void mnuSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();  // cierra el MDI (y la app si es el principal)
+        }
     }
 }

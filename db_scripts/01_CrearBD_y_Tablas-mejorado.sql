@@ -1,6 +1,6 @@
 /* =============================================================================
-   Script: 01_CrearBD_y_Tablas.sql
-   Proyecto: bd_A7_RubenCañizares
+   Script: 01_CrearBD_y_Tablas-mejorado.sql
+   Proyecto: SuiteMDI-Educativa-SQLServer
    Objetivo:
      - (Opcional) Eliminar y crear la BD Ejemplo_SIN_Encripcion
      - Crear tabla dbo.Perfiles (IDENTITY desde 1000)

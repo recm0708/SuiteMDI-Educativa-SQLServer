@@ -2,7 +2,8 @@ USE [Ejemplo_SIN_Encripcion];
 GO
 
 /* =============================================================================
-   Script: 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion.sql
+   Script: 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
+   Proyecto: SuiteMDI-Educativa-SQLServer
    Objetivo: Crear prValidarUsuario para validar (CodigoUsuario, Pass)
    Notas:
      - La columna Perfiles.Pass es VARBINARY(128). Comparamos en binario
