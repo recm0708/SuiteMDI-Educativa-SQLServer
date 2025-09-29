@@ -1,0 +1,24 @@
+2025-09-28 23:19:54: == Analizar compara las Sumas de Control de los archivos que tienen el mismo tamaño, pero diferente Fecha de Modificación
+2025-09-28 23:19:54: == Analizar compara Sumas de Control (Checksums) de cada archivo, así que se ejecutará LENTAMENTE, porque los archivos deben ser leídos para calcular sus Sumas de Control
+2025-09-28 23:19:54: -- Análisis iniciado por On File Change, After Delay
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /bin/Debug/bd_A7_RubenCanizares.exe
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /bin/Debug/bd_A7_RubenCanizares.exe.config
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /bin/Debug/bd_A7_RubenCanizares.pdb
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /obj/Debug/bd_A7_RubenCanizares.exe
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /obj/Debug/bd_A7_RubenCanizares.exe.config
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /obj/Debug/bd_A7_RubenCanizares.pdb
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /obj/Debug/bd_A7_RubenCanizares.Presentacion.frmMDI.resources
+2025-09-28 23:19:54: File ModTime changed but CheckSum remains the same, request CopyState: /obj/Debug/bd_A7_RubenCanizares.Properties.Resources.resources
+2025-09-28 23:19:54: Cambios: 1, Conflictos: 0, CopiaFecha: 0, CopiaEstado: 8, Errores: 0, All: 49
+2025-09-28 23:19:54: Left to Right: Copy File: 1 
+2025-09-28 23:19:55: == Sinc. comenzada por On File Change, After Delay
+2025-09-28 23:19:55: Start only 1 threads, limited by tasks to run
+2025-09-28 23:19:55: Connecting to Elevated Local GoodSync Server to complete operation
+2025-09-28 23:19:55: LOCAL C:(127.0.0.1) -> S:127.0.0.1:33333
+2025-09-28 23:19:55: Cannot connect to local GoodSync server: server: Wrong password for user -local-desktop-persona-ruben-ca-izares
+2025-09-28 23:19:55: ERROR: Cannot set Owner-ACL: C:/GitHub Repositories/SuiteMDI-Educativa-SQLServer/scr/bd_A7_RubenCanizares.csproj: Acceso denegado.  (error 5); Elevating SetFileOwnerACL: server: Wrong password for user -local-desktop-persona-ruben-ca-izares
+2025-09-28 23:19:55: Copy Confirmed by CheckSum: C:/GitHub Repositories/SuiteMDI-Educativa-SQLServer/scr/bd_A7_RubenCanizares.csproj: FF4C3E21C36F92AF9D0BD6CAE85EE42D
+2025-09-28 23:19:55: Copiar Sobre 'C:/Users/Ruben Cañizares/source/repos/bd_A7_RubenCanizares/bd_A7_RubenCanizares.csproj' -> 'C:/GitHub Repositories/SuiteMDI-Educativa-SQLServer/scr/bd_A7_RubenCanizares.csproj' (4,294)
+2025-09-28 23:19:55: Guardar archivo de estado C:/Users/Ruben Cañizares/source/repos/bd_A7_RubenCanizares/_gsdata_/_file_state_v4._gs
+2025-09-28 23:19:55: Guardar archivo de estado C:/GitHub Repositories/SuiteMDI-Educativa-SQLServer/scr/_gsdata_/_file_state_v4._gs
+2025-09-28 23:19:55: == Sinc. Completa. Tiempo: 00:00:00, Velocidad: 0.00/s, OK: 9, Errores: 0
