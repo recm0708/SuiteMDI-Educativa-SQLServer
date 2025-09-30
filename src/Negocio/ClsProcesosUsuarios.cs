@@ -111,6 +111,59 @@ namespace bd_A7_RubenCanizares.Negocio
             return filas; // 1 = eliminado, 0 = no existía, -1 = error
         }
 
+        public int ModificarUsuario(
+            int codigoUsuario,
+            string nombre,
+            string segundoNombre,
+            string apellido,
+            string segundoApellido,
+            string apellidoCasada,
+            string email)
+        {
+            CodigoError = 0; MensajeError = string.Empty;
+            int filas = 0;
+
+            try
+            {
+                using (var cn = new System.Data.SqlClient.SqlConnection(GetActiveConnectionString()))
+                using (var cmd = new System.Data.SqlClient.SqlCommand("dbo.prModificarUsuarios", cn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@CodigoUsuario", System.Data.SqlDbType.Int).Value = codigoUsuario;
+                    cmd.Parameters.Add("@NombreUsuario", System.Data.SqlDbType.VarChar, 50).Value = nombre ?? "";
+                    cmd.Parameters.Add("@SegundoNombre", System.Data.SqlDbType.VarChar, 50).Value = segundoNombre ?? "";
+                    cmd.Parameters.Add("@ApellidoUsuario", System.Data.SqlDbType.VarChar, 50).Value = apellido ?? "";
+                    cmd.Parameters.Add("@SegundoApellido", System.Data.SqlDbType.VarChar, 50).Value = segundoApellido ?? "";
+                    cmd.Parameters.Add("@ApellidoCasada", System.Data.SqlDbType.VarChar, 50).Value = apellidoCasada ?? "";
+                    cmd.Parameters.Add("@Email", System.Data.SqlDbType.VarChar, 100).Value = email ?? "";
+
+                    var pReturn = cmd.Parameters.Add("@ReturnVal", System.Data.SqlDbType.Int);
+                    pReturn.Direction = System.Data.ParameterDirection.ReturnValue;
+
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    filas = (pReturn.Value != null && pReturn.Value != System.DBNull.Value)
+                        ? System.Convert.ToInt32(pReturn.Value)
+                        : 0;
+                }
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                CodigoError = ex.Number;
+                MensajeError = ex.Message;
+                filas = -1;
+            }
+            catch (System.Exception ex)
+            {
+                CodigoError = -1;
+                MensajeError = ex.Message;
+                filas = -1;
+            }
+
+            return filas; // 1 = actualizado, 0 = no existía, -1 = error
+        }
         /// <summary>
         /// Consulta usuarios usando dbo.prConsultarUsuarios.
         /// codigoUsuario = 0 devuelve todos; >0 devuelve un registro (si existe).

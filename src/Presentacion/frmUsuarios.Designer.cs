@@ -34,6 +34,7 @@
             this.tbCodigo = new System.Windows.Forms.TextBox();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnGuardarEdicion = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(60, 52);
+            this.btnBuscar.Location = new System.Drawing.Point(186, 10);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 1;
@@ -58,7 +59,7 @@
             // 
             // btnRefrescar
             // 
-            this.btnRefrescar.Location = new System.Drawing.Point(141, 52);
+            this.btnRefrescar.Location = new System.Drawing.Point(267, 10);
             this.btnRefrescar.Name = "btnRefrescar";
             this.btnRefrescar.Size = new System.Drawing.Size(75, 23);
             this.btnRefrescar.TabIndex = 2;
@@ -80,16 +81,15 @@
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUsuarios.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvUsuarios.Location = new System.Drawing.Point(0, 91);
+            this.dgvUsuarios.Location = new System.Drawing.Point(0, 39);
             this.dgvUsuarios.Name = "dgvUsuarios";
-            this.dgvUsuarios.ReadOnly = true;
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUsuarios.Size = new System.Drawing.Size(800, 359);
+            this.dgvUsuarios.Size = new System.Drawing.Size(800, 411);
             this.dgvUsuarios.TabIndex = 5;
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(222, 52);
+            this.btnEliminar.Location = new System.Drawing.Point(348, 10);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 23);
             this.btnEliminar.TabIndex = 6;
@@ -97,11 +97,22 @@
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
+            // btnGuardarEdicion
+            // 
+            this.btnGuardarEdicion.Location = new System.Drawing.Point(429, 10);
+            this.btnGuardarEdicion.Name = "btnGuardarEdicion";
+            this.btnGuardarEdicion.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarEdicion.TabIndex = 7;
+            this.btnGuardarEdicion.Text = "Guardar";
+            this.btnGuardarEdicion.UseVisualStyleBackColor = true;
+            this.btnGuardarEdicion.Click += new System.EventHandler(this.btnGuardarEdicion_Click);
+            // 
             // frmUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnGuardarEdicion);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.dgvUsuarios);
             this.Controls.Add(this.tbCodigo);
@@ -125,5 +136,6 @@
         private System.Windows.Forms.TextBox tbCodigo;
         private System.Windows.Forms.DataGridView dgvUsuarios;
         private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnGuardarEdicion;
     }
 }
