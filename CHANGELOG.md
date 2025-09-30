@@ -3,13 +3,9 @@
 Todas las fechas en **YYYY-MM-DD**.
 
 ## [Unreleased]
-- SQL 01: agrega bloque **opcional (DEV)** de reseed del IDENTITY de `Perfiles` (alinear al `MAX(CodigoUsuario)`).
-- SQL 05: `prEliminarUsuario` (idempotente + RETURN @@ROWCOUNT) — completado.
-- C#: `ClsProcesosUsuarios.EliminarUsuario(int)` — integrado.
-- UI: `frmUsuarios` — botón **Eliminar** con confirmación y refresco.
-- DEV: `10_Mantenimiento_Reseed_Perfiles.sql` para alinear IDENTITY a `MAX(CodigoUsuario)`.
-
-
+- SQL 07: `prModificarPassword` (idempotente + pruebas).
+- UI: diálogo/campo para cambiar contraseña.
+- SQL 08–09: tablas/procedimientos del aplicativo.
 
 ## [0.1.0] - 2025-09-28
 ### Añadido
@@ -58,3 +54,18 @@ Todas las fechas en **YYYY-MM-DD**.
 
 ### Notas
 - Se agrega script de mantenimiento **10** (DEV) para reseed del IDENTITY de `Perfiles`.
+
+## [0.3.0] - 2025-09-29
+### SQL
+- 05: `prEliminarUsuario` (RETURN @@ROWCOUNT).
+- 06: `prModificarUsuarios` (RETURN @@ROWCOUNT).
+
+### C#
+- Negocio: `EliminarUsuario(int)`, `ModificarUsuario(...)`.
+
+### UI
+- `frmUsuarios`: botón **Eliminar** + **Guardar edición** (grilla editable, Código solo lectura).
+
+### Docs
+- README: checklist y guía (Eliminar/Editar).
+- Release v0.2.0 anotada con script 10 y reseed opcional del 01.
