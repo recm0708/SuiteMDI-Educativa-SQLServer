@@ -144,7 +144,11 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
    - Elimina por código y **retorna `@@ROWCOUNT`** (1 = eliminado, 0 = no existía).  
    - Pruebas: `SELECT` antes/después + verificación de código de retorno.
 
-6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql` *(pendiente)*  
+6. `06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql`  
+   - Crea **dbo.prModificarUsuarios(@CodigoUsuario, …)**.  
+   - Actualiza datos (sin cambiar Pass) y **retorna `@@ROWCOUNT`** (1 = actualizado, 0 = no existía).  
+   - Pruebas: SELECT antes/después + verificación de código de retorno.
+
 7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*  
 8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*  
 9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
@@ -174,11 +178,13 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 - [x] 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql  
 - [x] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql  
 - [x] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
-- [ ] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql  
+- [x] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql 
 - [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql  
 - [ ] 08_TablasDelAplicativo-mejorado.sql  
 - [ ] 09_ProcedimientosAplicativo-mejorado.sql
-- [x] 10_Mantenimiento_Reseed_Perfiles.sql 
+
+**Utilitarios (DEV)**
+- [x] 10_Mantenimiento_Reseed_Perfiles.sql
 
 ---
 
@@ -202,6 +208,11 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
    - **Parte B (avanzada)**: validación real con `dbo.prValidarUsuario`.  
 4. **MDI** se abre solo si `Globales.gblInicioCorrecto == 1`.  
 5. CRUD de usuarios (cuando esté activo): **frmUsuarios** con grilla y acciones (Consultar/Insertar/Modificar/Eliminar/Cambiar Password).
+6. Edita directamente en la grilla (excepto **CodigoUsuario**, solo lectura).
+7. Presiona **Guardar edición** para aplicar los cambios (usa SP 06).
+8. Mensajes:
+  - **Actualizado correctamente**: se refresca la lista.
+  - **No existe / sin cambios**: 0 filas afectadas.
 
 ### 📄 Consulta de usuarios (frmUsuarios)
 - Abrir desde **MDI**: **Catálogos → Usuarios**.
