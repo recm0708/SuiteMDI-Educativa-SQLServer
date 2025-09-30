@@ -265,6 +265,7 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 | MDI Principal | ![frmMDI](./docs/capturas/frmMDI.png) |
 | Usuarios        | ![frmUsuarios](./docs/capturas/frmUsuarios.png) |
 | Usuarios (eliminar) | ![frmUsuarios-Eliminar](./docs/capturas/frmUsuarios-Eliminar.png) |
+| Usuarios (editar) | ![frmUsuarios-Editar](./docs/capturas/frmUsuarios-Editar.png) |
 
 ---
 
