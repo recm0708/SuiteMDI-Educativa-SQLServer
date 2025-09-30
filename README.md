@@ -221,6 +221,13 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
   - Escribir **CódigoUsuario** (numérico) → filtra a un registro.
 - Si no ves filas, inserta un usuario con el **Script 03** y refresca.
 
+### ✏️ Edición de usuarios (frmUsuarios) — columnas manuales
+- La grilla usa **columnas manuales** (AutoGenerateColumns = False) con mapeos a los campos del SP `prConsultarUsuarios`:  
+  `CodigoUsuario`, `NombreUsuario`, `SegundoNombre`, `ApellidoUsuario`, `SegundoApellido`, `ApellidoCasada`, `Email`.
+- **CodigoUsuario** es **solo lectura**; el resto se puede editar en línea.
+- Presiona **Guardar edición** para aplicar los cambios (SP 06).  
+- **Refrescar** recarga todos los registros.
+
 ---
 
 <a name="flujo-de-trabajo-con-github-desktop"></a>
