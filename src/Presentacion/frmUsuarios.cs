@@ -7,28 +7,82 @@ namespace bd_A7_RubenCanizares.Presentacion
     public partial class frmUsuarios : Form
     {
         private readonly bd_A7_RubenCanizares.Negocio.ClsProcesosUsuarios _proc;
+        private bool _gridConfigured = false;
 
         public frmUsuarios()
         {
             InitializeComponent();
             _proc = new bd_A7_RubenCanizares.Negocio.ClsProcesosUsuarios();
         }
+
         private void frmUsuarios_Load(object sender, EventArgs e)
         {
-            // ... tu código de carga ...
-            if (dgvUsuarios.Columns.Contains("CodigoUsuario"))
-                dgvUsuarios.Columns["CodigoUsuario"].ReadOnly = true;
+            // Configuración de grilla 100% por código (una sola vez)
+            ConfigurarGridUsuarios();
+            // Carga inicial: todos
+            CargarUsuarios(0);
         }
 
+        /// <summary>
+        /// Define columnas manuales y reglas visuales/edición de la grilla.
+        /// </summary>
+        private void ConfigurarGridUsuarios()
+        {
+            if (_gridConfigured) return;
+
+            dgvUsuarios.SuspendLayout();
+
+            // Limpia cualquier configuración previa del diseñador
+            dgvUsuarios.DataSource = null;
+            dgvUsuarios.Columns.Clear();
+
+            // Reglas básicas
+            dgvUsuarios.AutoGenerateColumns = false;
+            dgvUsuarios.AllowUserToAddRows = false;
+            dgvUsuarios.AllowUserToDeleteRows = false;
+            dgvUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvUsuarios.MultiSelect = false;
+            dgvUsuarios.ReadOnly = false; // Permitimos edición de campos (excepto el Código)
+
+            // Helper local para construir columnas
+            DataGridViewTextBoxColumn Col(string name, string header, string prop, int width = 100, bool readOnly = false, DataGridViewAutoSizeColumnMode sizeMode = DataGridViewAutoSizeColumnMode.None)
+            {
+                return new DataGridViewTextBoxColumn
+                {
+                    Name = name,
+                    HeaderText = header,
+                    DataPropertyName = prop,
+                    ReadOnly = readOnly,
+                    AutoSizeMode = sizeMode,
+                    Width = width
+                };
+            }
+
+            // Columna Código (solo lectura)
+            dgvUsuarios.Columns.Add(Col("colCodigo", "Código", "CodigoUsuario", 80, readOnly: true));
+
+            // Demás columnas editables
+            dgvUsuarios.Columns.Add(Col("colNombre", "Nombre", "NombreUsuario", 140));
+            dgvUsuarios.Columns.Add(Col("colSegundoNombre", "Segundo Nombre", "SegundoNombre", 140));
+            dgvUsuarios.Columns.Add(Col("colApellido", "Apellido", "ApellidoUsuario", 140));
+            dgvUsuarios.Columns.Add(Col("colSegundoApellido", "Segundo Apellido", "SegundoApellido", 140));
+            dgvUsuarios.Columns.Add(Col("colApellidoCasada", "Apellido Casada", "ApellidoCasada", 140));
+            dgvUsuarios.Columns.Add(Col("colEmail", "Email", "Email", 100, readOnly: false, sizeMode: DataGridViewAutoSizeColumnMode.Fill));
+
+            _gridConfigured = true;
+
+            dgvUsuarios.ResumeLayout();
+        }
+
+        /// <summary>
+        /// Carga usuarios: si codigo==0, trae todos; si >0, trae uno.
+        /// </summary>
         private void CargarUsuarios(int codigo)
         {
             try
             {
-                // Primera prueba: columnas automáticas
-                dgvUsuarios.AutoGenerateColumns = true;
-
+                // NUNCA activamos AutoGenerateColumns aquí (permanece false)
                 var dt = _proc.ConsultarUsuarios(codigo);
-                dgvUsuarios.DataSource = dt;
 
                 if (_proc.CodigoError != 0)
                 {
@@ -37,8 +91,11 @@ namespace bd_A7_RubenCanizares.Presentacion
                     return;
                 }
 
-                // Mensaje si no hay filas
-                if (dt.Rows.Count == 0)
+                // Desenlazar y enlazar para forzar refresco limpio
+                dgvUsuarios.DataSource = null;
+                dgvUsuarios.DataSource = dt;
+
+                if (dt == null || dt.Rows.Count == 0)
                 {
                     if (codigo == 0)
                         Text = "Usuarios (no hay registros)";
@@ -66,7 +123,30 @@ namespace bd_A7_RubenCanizares.Presentacion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            int codigo = ObtenerCodigoFiltro();
+            if (codigo < 0) return; // mensaje ya mostrado si entrada inválida
+            CargarUsuarios(codigo);
+        }
 
+        /// <summary>
+        /// Obtiene y valida el código ingresado en tbCodigo.
+        /// Devuelve 0 si está vacío (equivale a "todos").
+        /// Devuelve -1 si la entrada es inválida (y muestra mensaje).
+        /// </summary>
+        private int ObtenerCodigoFiltro()
+        {
+            if (string.IsNullOrWhiteSpace(tbCodigo.Text))
+                return 0;
+
+            if (!int.TryParse(tbCodigo.Text.Trim(), out int codigo) || codigo < 0)
+            {
+                MessageBox.Show("Ingresa un Código numérico válido.", "Búsqueda",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tbCodigo.Focus();
+                tbCodigo.SelectAll();
+                return -1;
+            }
+            return codigo;
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -76,14 +156,15 @@ namespace bd_A7_RubenCanizares.Presentacion
                 // 1) Obtener CódigoUsuario: prioriza fila seleccionada; si no, usa tbCodigo
                 int codigo = 0;
 
-                if (dgvUsuarios.CurrentRow != null && dgvUsuarios.CurrentRow.DataBoundItem is System.Data.DataRowView drv)
+                if (dgvUsuarios.CurrentRow != null && dgvUsuarios.CurrentRow.DataBoundItem is DataRowView drv)
                 {
                     if (drv.Row.Table.Columns.Contains("CodigoUsuario"))
-                        codigo = System.Convert.ToInt32(drv["CodigoUsuario"]);
+                        codigo = Convert.ToInt32(drv["CodigoUsuario"]);
                 }
-                else if (!string.IsNullOrWhiteSpace(tbCodigo.Text) && int.TryParse(tbCodigo.Text, out int cod))
+                else
                 {
-                    codigo = cod;
+                    codigo = ObtenerCodigoFiltro();
+                    if (codigo < 0) return;
                 }
 
                 if (codigo <= 0)
@@ -100,14 +181,13 @@ namespace bd_A7_RubenCanizares.Presentacion
                 if (r != DialogResult.Yes) return;
 
                 // 3) Llamar Negocio
-                var proc = new bd_A7_RubenCanizares.Negocio.ClsProcesosUsuarios();
-                int filas = proc.EliminarUsuario(codigo);
+                int filas = _proc.EliminarUsuario(codigo);
 
                 if (filas == 1)
                 {
                     MessageBox.Show("Usuario eliminado correctamente.", "Eliminar",
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // 4) Refrescar grilla (mantén filtro o limpia, como prefieras)
+                    // 4) Refrescar grilla
                     CargarUsuarios(0);
                 }
                 else if (filas == 0)
@@ -117,7 +197,7 @@ namespace bd_A7_RubenCanizares.Presentacion
                 }
                 else // -1 (error)
                 {
-                    MessageBox.Show($"Error SQL {proc.CodigoError}: {proc.MensajeError}", "Eliminar",
+                    MessageBox.Show($"Error SQL {_proc.CodigoError}: {_proc.MensajeError}", "Eliminar",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -132,14 +212,14 @@ namespace bd_A7_RubenCanizares.Presentacion
         {
             try
             {
-                if (dgvUsuarios.CurrentRow == null || !(dgvUsuarios.CurrentRow.DataBoundItem is System.Data.DataRowView drv))
+                if (dgvUsuarios.CurrentRow == null || !(dgvUsuarios.CurrentRow.DataBoundItem is DataRowView drv))
                 {
                     MessageBox.Show("Selecciona una fila para editar.", "Modificar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 var row = drv.Row;
-                // Validar presencia de columnas (por si cambian nombres)
+                // Validar columnas esperadas
                 string[] cols = { "CodigoUsuario", "NombreUsuario", "SegundoNombre", "ApellidoUsuario", "SegundoApellido", "ApellidoCasada", "Email" };
                 foreach (var c in cols)
                 {
@@ -150,7 +230,7 @@ namespace bd_A7_RubenCanizares.Presentacion
                     }
                 }
 
-                int codigo = System.Convert.ToInt32(row["CodigoUsuario"]);
+                int codigo = Convert.ToInt32(row["CodigoUsuario"]);
                 string nombre = (row["NombreUsuario"] ?? "").ToString();
                 string segundoNombre = (row["SegundoNombre"] ?? "").ToString();
                 string apellido = (row["ApellidoUsuario"] ?? "").ToString();
@@ -164,14 +244,13 @@ namespace bd_A7_RubenCanizares.Presentacion
                                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (r != DialogResult.Yes) return;
 
-                var proc = new bd_A7_RubenCanizares.Negocio.ClsProcesosUsuarios();
-                int filas = proc.ModificarUsuario(codigo, nombre, segundoNombre, apellido, segundoApellido, apellidoCasada, email);
+                int filas = _proc.ModificarUsuario(codigo, nombre, segundoNombre, apellido, segundoApellido, apellidoCasada, email);
 
                 if (filas == 1)
                 {
                     MessageBox.Show("Usuario actualizado correctamente.", "Modificar",
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // Refresca para asegurar consistencia con BD
+                    // Refrescar lista
                     CargarUsuarios(0);
                 }
                 else if (filas == 0)
@@ -181,7 +260,7 @@ namespace bd_A7_RubenCanizares.Presentacion
                 }
                 else
                 {
-                    MessageBox.Show($"Error SQL {proc.CodigoError}: {proc.MensajeError}", "Modificar",
+                    MessageBox.Show($"Error SQL {_proc.CodigoError}: {_proc.MensajeError}", "Modificar",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -190,6 +269,11 @@ namespace bd_A7_RubenCanizares.Presentacion
                 MessageBox.Show($"Error inesperado: {ex.Message}", "Modificar",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Sin uso por ahora
         }
     }
 }

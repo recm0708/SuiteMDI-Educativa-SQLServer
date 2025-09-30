@@ -35,6 +35,13 @@
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnGuardarEdicion = new System.Windows.Forms.Button();
+            this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSegundoNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colApellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSegundoApellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colApellidoCasada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,12 +87,21 @@
             this.dgvUsuarios.AllowUserToDeleteRows = false;
             this.dgvUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUsuarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colCodigo,
+            this.colNombre,
+            this.colSegundoNombre,
+            this.colApellido,
+            this.colSegundoApellido,
+            this.colApellidoCasada,
+            this.colEmail});
             this.dgvUsuarios.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvUsuarios.Location = new System.Drawing.Point(0, 39);
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsuarios.Size = new System.Drawing.Size(800, 411);
             this.dgvUsuarios.TabIndex = 5;
+            this.dgvUsuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellContentClick);
             // 
             // btnEliminar
             // 
@@ -106,6 +122,62 @@
             this.btnGuardarEdicion.Text = "Guardar";
             this.btnGuardarEdicion.UseVisualStyleBackColor = true;
             this.btnGuardarEdicion.Click += new System.EventHandler(this.btnGuardarEdicion_Click);
+            // 
+            // colCodigo
+            // 
+            this.colCodigo.DataPropertyName = "CodigoUsuario";
+            this.colCodigo.HeaderText = "Código";
+            this.colCodigo.Name = "colCodigo";
+            this.colCodigo.ReadOnly = true;
+            this.colCodigo.Width = 65;
+            // 
+            // colNombre
+            // 
+            this.colNombre.DataPropertyName = "Nombre";
+            this.colNombre.HeaderText = "NombreUsuario";
+            this.colNombre.Name = "colNombre";
+            this.colNombre.ReadOnly = true;
+            this.colNombre.Width = 105;
+            // 
+            // colSegundoNombre
+            // 
+            this.colSegundoNombre.DataPropertyName = "Segundo Nombre";
+            this.colSegundoNombre.HeaderText = "SegundoNombre";
+            this.colSegundoNombre.Name = "colSegundoNombre";
+            this.colSegundoNombre.ReadOnly = true;
+            this.colSegundoNombre.Width = 112;
+            // 
+            // colApellido
+            // 
+            this.colApellido.DataPropertyName = "Apellido";
+            this.colApellido.HeaderText = "ApellidoUsuario";
+            this.colApellido.Name = "colApellido";
+            this.colApellido.ReadOnly = true;
+            this.colApellido.Width = 105;
+            // 
+            // colSegundoApellido
+            // 
+            this.colSegundoApellido.DataPropertyName = "Segundo Apellido";
+            this.colSegundoApellido.HeaderText = "SegundoApellido";
+            this.colSegundoApellido.Name = "colSegundoApellido";
+            this.colSegundoApellido.ReadOnly = true;
+            this.colSegundoApellido.Width = 112;
+            // 
+            // colApellidoCasada
+            // 
+            this.colApellidoCasada.DataPropertyName = "Apellido Casada";
+            this.colApellidoCasada.HeaderText = "ApellidoCasada";
+            this.colApellidoCasada.Name = "colApellidoCasada";
+            this.colApellidoCasada.ReadOnly = true;
+            this.colApellidoCasada.Width = 105;
+            // 
+            // colEmail
+            // 
+            this.colEmail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colEmail.DataPropertyName = "Email";
+            this.colEmail.HeaderText = "Email";
+            this.colEmail.Name = "colEmail";
+            this.colEmail.ReadOnly = true;
             // 
             // frmUsuarios
             // 
@@ -137,5 +209,12 @@
         private System.Windows.Forms.DataGridView dgvUsuarios;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnGuardarEdicion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCodigo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSegundoNombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colApellido;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSegundoApellido;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colApellidoCasada;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEmail;
     }
 }
