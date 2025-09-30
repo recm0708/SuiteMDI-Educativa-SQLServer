@@ -69,3 +69,9 @@ Todas las fechas en **YYYY-MM-DD**.
 ### Docs
 - README: checklist y guía (Eliminar/Editar).
 - Release v0.2.0 anotada con script 10 y reseed opcional del 01.
+
+## [0.3.1] - 2025-09-29
+### UI
+- `frmUsuarios`: **columnas manuales** en `DataGridView` (AutoGenerateColumns desactivado, mapeos a campos del SP, `CodigoUsuario` solo lectura).
+### C#
+- `AssemblyInfo.cs`: metadatos profesionales (Title/Description/Company/RepositoryUrl/CLSCompliant/NeutralResourcesLanguage) y versión **0.3.1**.
