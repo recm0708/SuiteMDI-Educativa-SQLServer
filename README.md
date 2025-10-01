@@ -8,18 +8,18 @@ Aplicación educativa en **C# WinForms (.NET Framework 4.8)** con interfaz **MDI
 ---
 
 ## 📚 Contenidos
-- [Estructura del repositorio](#estructura-del-repositorio)
-- [Requisitos](#requisitos)
-- [Configuración inicial](#configuración-inicial)
-- [Configuración de Base de Datos (SQL)](#configuracion-de-base-de-datos-sql)
-- [Variables/Secretos y seguridad](#variablessecretos-y-seguridad)
-- [Ejecución y pruebas](#ejecucion-y-pruebas)
-- [Flujo de trabajo con GitHub Desktop](#flujo-de-trabajo-con-github-desktop)
-- [Convenciones y calidad](#convenciones-y-calidad)
-- [Problemas comunes](#problemas-comunes)
-- [Vistas](#vistas)
-- [Roadmap y Releases](#roadmap-y-releases)
-- [Licencia](#licencia)
+- [📁 Estructura del Repositorio](#estructura-del-repositorio)
+- [✅ Requisitos](#requisitos)
+- [🛠️ Configuración Inicial](#configuración-inicial)
+- [🧩 Configuración de Base de Datos (SQL)](#configuracion-de-base-de-datos-sql)
+- [🔐 Variables/Secretos y Seguridad](#variablessecretos-y-seguridad)
+- [▶️ Ejecución y Pruebas](#ejecucion-y-pruebas)
+- [🔄 Flujo de Trabajo con GitHub Desktop](#flujo-de-trabajo-con-github-desktop)
+- [🧭 Convenciones y Calidad](#convenciones-y-calidad)
+- [🧰 Problemas Comunes](#problemas-comunes)
+- [📸 Vistas](#vistas)
+- [🗺️ Roadmap y Releases](#roadmap-y-releases)
+- [📄 Licencia](#licencia)
 
 ---
 
@@ -46,9 +46,9 @@ SuiteMDI-Educativa-SQLServer/
 │   ├── 02_CrearProcedimiento_VerificarUsuario_Valido_Sin_Encripcion-mejorado.sql
 │   ├── 03_CrearProcedimiento_De_InsertarDatos_Sin_Encripcion-mejorado.sql
 │   ├── 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql
-│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql (pendiente)
-│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql (pendiente)
-│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql (pendiente)
+│   ├── 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql
+│   ├── 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql
+│   ├── 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
 │   ├── 08_TablasDelAplicativo-mejorado.sql (pendiente)
 │   └── 09_ProcedimientosAplicativo-mejorado.sql (pendiente)
 │
@@ -103,7 +103,7 @@ SuiteMDI-Educativa-SQLServer/
    `C:\GitHub Repositories\SuiteMDI-Educativa-SQLServer\`
 2. **Abrir en VS** la solución en `/src/`.
 3. **Crear** tu `App.config` desde la plantilla:
-   - Copia `src/bd_A7_RubenCanizares/App.config.example` → renómbralo a **`App.config`**.
+   - Copia `src/bd_A7_RubenCanizares/App.config.template.config` → renómbralo a **`App.config`**.
    - Edita la contraseña real de SQL en `SqlDocker` (y `SqlLocal` si lo usas).
 4. **Docker/SQL** en marcha:
    - Contenedor SQL Server expuesto en `127.0.0.1,2333`.
@@ -287,7 +287,7 @@ Mensajes:
 ---
 
 <a name="flujo-de-trabajo-con-github-desktop"></a>
-## 🔄 Flujo de trabajo con GitHub Desktop
+## 🔄 Flujo de Trabajo con GitHub Desktop
 
 - **Commits** en español (Summary obligatorio).  
 - **Push** para sincronizar con GitHub.  
@@ -336,11 +336,66 @@ Mensajes:
 <a name="roadmap-y-releases"></a>
 ## 🗺️ Roadmap y Releases
 
-- **Roadmap**: ver tablero Kanban en la pestaña **Projects** (Roadmap SuiteMDI).  
-- **Releases**:  
-  - `v0.1.0` — Parte A (estructura + login + scripts 01–03).  
-  - `v0.2.0` — Parte B (CRUD completo).  
-  - `v0.3.0` — Parte C (mejoras finales y pulido).
+### Roadmap (Issues · Project · Milestones)
+- **Project**: _Roadmap SuiteMDI_ → columnas **To do**, **In progress**, **Done**.
+- **Labels**: `sql`, `backend`, `ui`, `docs`, `infra`, `good first issue`.
+- **Milestones activas**:
+  - **v0.4.0 — Parte B (07–09)** *(en curso)*
+    - ✅ 07: Cambiar contraseña (SQL + Negocio + UI)
+    - ⏳ 08: Tablas del aplicativo
+    - ⏳ 09: Procedimientos del aplicativo
+  - **v0.3.1 — UI: columnas manuales + AssemblyInfo pro** *(publicada)*
+  - **v0.3.0 — Parte B: Eliminar/Modificar (05–06)** *(publicada)*
+  - **v0.1.0 — Parte A: base MDI + conexión** *(publicada)*
+
+> Flujo recomendado por issue:
+> 1) Crear issue con label(s) y milestone.  
+> 2) Añadir al Project (columna **To do**).  
+> 3) Al trabajar, mover a **In progress**.  
+> 4) PR/Commit que cierre la issue: `Closes #N`.  
+> 5) Al cerrar, el Project pasa a **Done** (workflow).
+
+---
+
+### Releases
+
+#### 📦 Publicadas
+- **v0.3.1 — UI: Columnas manuales + AssemblyInfo pro**
+  - UI: DataGridView con **columnas manuales** (mapeos, tamaños; `CodigoUsuario` solo lectura).
+  - C#: `AssemblyInfo.cs` con metadatos profesionales y versión `0.3.1`.
+  - Docs: README/CHANGELOG actualizados.
+
+- **v0.3.0 — Parte B: Eliminar y Modificar (05–06)**
+  - SQL: `prEliminarUsuario`, `prModificarUsuarios` (ambas con `RETURN @@ROWCOUNT`).
+  - C#: Métodos `EliminarUsuario`, `ModificarUsuario`.
+  - UI: `frmUsuarios` con **Eliminar** y **Guardar edición**.
+  - Docs/Acciones: README, CHANGELOG, CI estable.
+
+- **v0.1.0 — Parte A: Base MDI + conexión**
+  - WinForms .NET 4.8: `frmMDI`, `frmAcceso` (conexión básica).
+  - Estructura del repo, licencia MIT, seguridad de `App.config`.
+  - CI: build en Windows, App.config temporal en runner.
+
+#### 🧪 Draft / Próxima versión
+- **v0.4.0 — Parte B: Cambio de contraseña (07) + 08–09**
+  - ✅ SQL 07: `prModificarPasswordUsuarios` (idempotente; `@@ROWCOUNT`; `Resetear`).
+  - ✅ C#: `ModificarPassword(...)`, `ValidarUsuario(...)` (login con SP 02).
+  - ✅ UI: `frmCambiarPassword` (normal + reset; campo “Anterior” deshabilitado cuando reset).
+  - ⏳ SQL 08: Tablas del aplicativo.
+  - ⏳ SQL 09: Procedimientos del aplicativo.
+  - ⏳ Docs: README/CHANGELOG, capturas extra.
+
+> Cuando 08–09 estén listos:
+> - Mover items de `[Unreleased]` a **v0.4.0** en `CHANGELOG.md` con fecha.
+> - Crear tag `v0.4.0` y publicar el Release con notas.
+
+---
+
+### 🔐 (Opcional) Protección de rama `main`
+- Activar cuando el CI esté verde de forma consistente:
+  - Requerir PR para `main`, 1+ review, y **status checks** (build) obligatorios.
+  - Impedir pushes directos a `main`.
+- Si necesitas revertir: desactivar temporalmente en **Settings → Branches → Branch protection rules**.
 
 ---
 
