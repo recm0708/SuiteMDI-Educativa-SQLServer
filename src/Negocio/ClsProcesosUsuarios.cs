@@ -164,6 +164,126 @@ namespace bd_A7_RubenCanizares.Negocio
 
             return filas; // 1 = actualizado, 0 = no existía, -1 = error
         }
+
+        public int ModificarPassword(int codigoUsuario, string passAnterior, string passNuevo, bool resetear)
+        {
+            CodigoError = 0; MensajeError = string.Empty;
+            int filas = 0;
+
+            try
+            {
+                using (var cn = new System.Data.SqlClient.SqlConnection(GetActiveConnectionString()))
+                {
+                    cn.Open();
+
+                    // 1) ¿A qué BD estoy conectado?
+                    string dbActual;
+                    using (var cmdDb = new System.Data.SqlClient.SqlCommand("SELECT DB_NAME()", cn))
+                    {
+                        dbActual = (cmdDb.ExecuteScalar() ?? "").ToString();
+                    }
+
+                    // 2) Llamar SP de cambio de password
+                    using (var cmd = new System.Data.SqlClient.SqlCommand("dbo.prModificarPasswordUsuarios", cn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@CodigoUsuario", System.Data.SqlDbType.Int).Value = codigoUsuario;
+
+                        // passAnterior puede ser NULL si resetear=true
+                        var pAnt = cmd.Parameters.Add("@PassAnterior", System.Data.SqlDbType.VarChar, 500);
+                        pAnt.Value = string.IsNullOrWhiteSpace(passAnterior) ? (object)System.DBNull.Value : passAnterior;
+
+                        cmd.Parameters.Add("@PassNuevo", System.Data.SqlDbType.VarChar, 500).Value = passNuevo ?? "";
+                        cmd.Parameters.Add("@Resetear", System.Data.SqlDbType.Bit).Value = resetear ? 1 : 0;
+
+                        var pReturn = cmd.Parameters.Add("@ReturnVal", System.Data.SqlDbType.Int);
+                        pReturn.Direction = System.Data.ParameterDirection.ReturnValue;
+
+                        cmd.ExecuteNonQuery();
+                        filas = (pReturn.Value != null && pReturn.Value != System.DBNull.Value)
+                                ? System.Convert.ToInt32(pReturn.Value)
+                                : 0;
+                    }
+
+                    // 3) Verificación inmediata: leer el Pass en texto y comparar
+                    string passLeido = null;
+                    using (var cmdChk = new System.Data.SqlClient.SqlCommand(
+                            "SELECT CONVERT(VARCHAR(500), Pass) FROM dbo.Perfiles WHERE CodigoUsuario = @c", cn))
+                    {
+                        cmdChk.Parameters.Add("@c", System.Data.SqlDbType.Int).Value = codigoUsuario;
+                        var obj = cmdChk.ExecuteScalar();
+                        passLeido = obj?.ToString();
+                    }
+
+                    // Empaquetamos información en el MensajeError para depurar
+                    MensajeError = $"[DB={dbActual}] filas={filas} passLeido={(passLeido ?? "<null>")}";
+
+                    // Si el SP dijo 1 (actualizó), pero la lectura no coincide con el nuevo, marcamos un código especial:
+                    if (filas == 1 && (passLeido ?? "") != (passNuevo ?? ""))
+                    {
+                        CodigoError = -2; // mismatch después de supuesta actualización
+                        MensajeError += " | ¡Mismatch! El valor leído no coincide con PassNuevo.";
+                        // Opcionalmente fuerzo un retorno distinto a 1 para que la UI te alerte:
+                        filas = -2;
+                    }
+                }
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                CodigoError = ex.Number; MensajeError = ex.Message; filas = -1;
+            }
+            catch (System.Exception ex)
+            {
+                CodigoError = -1; MensajeError = ex.Message; filas = -1;
+            }
+
+            return filas; // 1=actualizado; 0=no coincide/no existe; -1=error SQL/.NET; -2=SP dijo 1 pero verificación no coincide
+        }
+
+        public bool ValidarUsuario(int codigoUsuario, string pass, out string nombre, out string apellido, out string email)
+        {
+            CodigoError = 0; MensajeError = string.Empty;
+            nombre = apellido = email = string.Empty;
+
+            try
+            {
+                using (var cn = new System.Data.SqlClient.SqlConnection(GetActiveConnectionString()))
+                using (var cmd = new System.Data.SqlClient.SqlCommand("dbo.prValidarUsuario", cn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CodigoUsuario", System.Data.SqlDbType.Int).Value = codigoUsuario;
+                    cmd.Parameters.Add("@Pass", System.Data.SqlDbType.VarChar, 500).Value = pass ?? "";
+
+                    cn.Open();
+                    using (var da = new System.Data.SqlClient.SqlDataAdapter(cmd))
+                    {
+                        var dt = new System.Data.DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count == 1)
+                        {
+                            nombre = dt.Rows[0]["NombreUsuario"]?.ToString() ?? "";
+                            apellido = dt.Rows[0]["ApellidoUsuario"]?.ToString() ?? "";
+                            email = dt.Rows[0]["Email"]?.ToString() ?? "";
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                CodigoError = ex.Number; MensajeError = ex.Message;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                CodigoError = -1; MensajeError = ex.Message;
+                return false;
+            }
+        }
+
         /// <summary>
         /// Consulta usuarios usando dbo.prConsultarUsuarios.
         /// codigoUsuario = 0 devuelve todos; >0 devuelve un registro (si existe).

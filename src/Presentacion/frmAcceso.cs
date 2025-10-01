@@ -10,6 +10,10 @@ namespace bd_A7_RubenCanizares.Presentacion
         public frmAcceso()
         {
             InitializeComponent();
+
+            // Teclas rápidas del formulario:
+            this.AcceptButton = btn_Aceptar;   // Enter = clic en Aceptar
+            this.CancelButton = btn_Cerrar;    // Esc = clic en Cerrar
         }
 
         private void btn_Cerrar_Click(object sender, EventArgs e)
@@ -21,45 +25,54 @@ namespace bd_A7_RubenCanizares.Presentacion
 
         private void btn_Aceptar_Click(object sender, EventArgs e)
         {
-            // Validación de entradas
-            if (!int.TryParse(tbUsuario.Text.Trim(), out int codUsuario))
+            try
             {
-                MessageBox.Show("El 'Usuario' debe ser numérico (código).", "Acceso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                tbUsuario.Focus();
-                return;
+                // Validaciones básicas
+                if (!int.TryParse(tbUsuario.Text.Trim(), out int codigo) || codigo <= 0)
+                {
+                    MessageBox.Show("Código inválido.", "Acceso",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tbUsuario.Focus();
+                    tbUsuario.SelectAll();
+                    return;
+                }
+
+                string pass = tbPass.Text; // importante: no recortar espacios por defecto
+
+                // Validación real vía SP
+                var proc = new bd_A7_RubenCanizares.Negocio.ClsProcesosUsuarios();
+                bool ok = proc.ValidarUsuario(codigo, pass, out var nombre, out var apellido, out var email);
+
+                if (ok)
+                {
+                    // Señal global de inicio correcto
+                    bd_A7_RubenCanizares.Soporte.Globales.gblInicioCorrecto = 1;
+
+                    // (Opcional) Guardar algo en Globales si lo usas en el MDI
+                    // bd_A7_RubenCanizares.Soporte.Globales.gblUsuarioNombre = nombre;
+                    // bd_A7_RubenCanizares.Soporte.Globales.gblUsuarioEmail = email;
+
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    // Si hubo error SQL, muéstralo; si no, credenciales inválidas
+                    if (proc.CodigoError != 0)
+                        MessageBox.Show($"Error SQL {proc.CodigoError}: {proc.MensajeError}", "Acceso",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show("Usuario o contraseña incorrectos.", "Acceso",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    tbPass.Focus();
+                    tbPass.SelectAll();
+                }
             }
-            if (string.IsNullOrWhiteSpace(tbPass.Text))
+            catch (Exception ex)
             {
-                MessageBox.Show("Ingrese la contraseña.", "Acceso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                tbPass.Focus();
-                return;
-            }
-
-            var cnx = new bd_A7_RubenCanizares.Datos.ClsConexion();
-            int r = cnx.Conectar(codUsuario, tbPass.Text.Trim());
-
-            if (r == 1)
-            {
-                bd_A7_RubenCanizares.Soporte.Globales.gblInicioCorrecto = 1;
-                bd_A7_RubenCanizares.Soporte.Globales.gblUsuario = codUsuario;
-                bd_A7_RubenCanizares.Soporte.Globales.gblPass = string.Empty; // no guardamos contraseñas
-
-                MessageBox.Show("Bienvenido.", "Acceso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Credenciales inválidas o error:\n" + cnx.MensajeError, "Acceso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                bd_A7_RubenCanizares.Soporte.Globales.gblInicioCorrecto = 0;
-                tbPass.SelectAll();
-                tbPass.Focus();
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Acceso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

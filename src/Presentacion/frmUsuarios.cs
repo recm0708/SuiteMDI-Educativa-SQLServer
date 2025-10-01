@@ -275,5 +275,63 @@ namespace bd_A7_RubenCanizares.Presentacion
         {
             // Sin uso por ahora
         }
+
+        private void btnCambiarPassword_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvUsuarios.CurrentRow == null || !(dgvUsuarios.CurrentRow.DataBoundItem is System.Data.DataRowView drv))
+                {
+                    MessageBox.Show("Selecciona un usuario en la grilla.", "Cambiar contraseña",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!drv.Row.Table.Columns.Contains("CodigoUsuario"))
+                {
+                    MessageBox.Show("No se encontró la columna 'CodigoUsuario'.", "Cambiar contraseña",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int codigo = Convert.ToInt32(drv["CodigoUsuario"]);
+                using (var f = new frmCambiarPassword(codigo))
+                {
+                    if (f.ShowDialog(this) == DialogResult.OK)
+                    {
+                        var proc = new bd_A7_RubenCanizares.Negocio.ClsProcesosUsuarios();
+                        int filas = proc.ModificarPassword(
+                            codigo,
+                            passAnterior: f.Resetear ? null : (f.PassAnterior?.Trim() ?? ""),
+                            passNuevo: f.PassNueva?.Trim() ?? "",
+                            resetear: f.Resetear
+                        );
+
+                        if (filas == 1)
+                        {
+                            MessageBox.Show("Contraseña actualizada correctamente.", "Cambiar contraseña",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            // 🔎 Mensaje de diagnóstico detallado:
+                            // proc.MensajeError incluirá algo como: [DB=Ejemplo_SIN_Encripcion] filas=0 passLeido=...
+                            // casos: 0 = código no existe o anterior inválida; -1 = error SQL/.NET; -2 = mismatch post-actualización
+                            string detalle = $"(filas={filas}) Detalle: {proc.MensajeError}";
+                            if (proc.CodigoError != 0)
+                                detalle += $" | CodigoError={proc.CodigoError}";
+
+                            MessageBox.Show($"No se actualizó la contraseña.\n{detalle}",
+                                "Cambiar contraseña", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Cambiar contraseña",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

@@ -33,8 +33,6 @@
             this.btnRefrescar = new System.Windows.Forms.Button();
             this.tbCodigo = new System.Windows.Forms.TextBox();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.btnGuardarEdicion = new System.Windows.Forms.Button();
             this.colCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSegundoNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,6 +40,9 @@
             this.colSegundoApellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colApellidoCasada = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnGuardarEdicion = new System.Windows.Forms.Button();
+            this.tbnCambiarPassword = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,26 +104,6 @@
             this.dgvUsuarios.TabIndex = 5;
             this.dgvUsuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellContentClick);
             // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(348, 10);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
-            this.btnEliminar.TabIndex = 6;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-            // 
-            // btnGuardarEdicion
-            // 
-            this.btnGuardarEdicion.Location = new System.Drawing.Point(429, 10);
-            this.btnGuardarEdicion.Name = "btnGuardarEdicion";
-            this.btnGuardarEdicion.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardarEdicion.TabIndex = 7;
-            this.btnGuardarEdicion.Text = "Guardar";
-            this.btnGuardarEdicion.UseVisualStyleBackColor = true;
-            this.btnGuardarEdicion.Click += new System.EventHandler(this.btnGuardarEdicion_Click);
-            // 
             // colCodigo
             // 
             this.colCodigo.DataPropertyName = "CodigoUsuario";
@@ -179,11 +160,42 @@
             this.colEmail.Name = "colEmail";
             this.colEmail.ReadOnly = true;
             // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Location = new System.Drawing.Point(348, 10);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminar.TabIndex = 6;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // btnGuardarEdicion
+            // 
+            this.btnGuardarEdicion.Location = new System.Drawing.Point(429, 10);
+            this.btnGuardarEdicion.Name = "btnGuardarEdicion";
+            this.btnGuardarEdicion.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardarEdicion.TabIndex = 7;
+            this.btnGuardarEdicion.Text = "Guardar";
+            this.btnGuardarEdicion.UseVisualStyleBackColor = true;
+            this.btnGuardarEdicion.Click += new System.EventHandler(this.btnGuardarEdicion_Click);
+            // 
+            // tbnCambiarPassword
+            // 
+            this.tbnCambiarPassword.Location = new System.Drawing.Point(510, 10);
+            this.tbnCambiarPassword.Name = "tbnCambiarPassword";
+            this.tbnCambiarPassword.Size = new System.Drawing.Size(115, 23);
+            this.tbnCambiarPassword.TabIndex = 8;
+            this.tbnCambiarPassword.Text = "Cambiar Contraseña";
+            this.tbnCambiarPassword.UseVisualStyleBackColor = true;
+            this.tbnCambiarPassword.Click += new System.EventHandler(this.btnCambiarPassword_Click);
+            // 
             // frmUsuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.tbnCambiarPassword);
             this.Controls.Add(this.btnGuardarEdicion);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.dgvUsuarios);
@@ -216,5 +228,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colSegundoApellido;
         private System.Windows.Forms.DataGridViewTextBoxColumn colApellidoCasada;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEmail;
+        private System.Windows.Forms.Button tbnCambiarPassword;
     }
 }
