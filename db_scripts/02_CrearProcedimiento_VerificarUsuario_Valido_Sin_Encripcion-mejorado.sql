@@ -8,7 +8,7 @@ GO
    Notas:
      - La columna Perfiles.Pass es VARBINARY(128). Comparamos en binario
        convirtiendo el parámetro @Pass (VARCHAR) a VARBINARY(128).
-     - Si en el futuro decidimos usar texto plano, solo cambiamos la comparación a texto.
+     - Si en el futuro se decide usar texto plano, solo cambiamos la comparación a texto.
    ============================================================================= */
 
 SET ANSI_NULLS ON;
@@ -39,7 +39,7 @@ BEGIN
           AND Pass = CONVERT(VARBINARY(128), @Pass)
     )
     BEGIN
-        /* Devuelve datos del usuario (puedes ampliar columnas si quieres). */
+        /* Devuelve datos del usuario (podemos ampliar columnas si queremos). */
         SELECT NombreUsuario, ApellidoUsuario, Email
         FROM dbo.Perfiles
         WHERE CodigoUsuario = @CodigoUsuario;
@@ -47,7 +47,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        /* Devuelve un resultset vacío con mismas columnas (patrón del original). */
+        /* Devuelve un resultset vacío con mismas columnas (mismo patrón del original). */
         SELECT CAST('' AS VARCHAR(50)) AS NombreUsuario,
                CAST('' AS VARCHAR(50)) AS ApellidoUsuario,
                CAST('' AS VARCHAR(100)) AS Email

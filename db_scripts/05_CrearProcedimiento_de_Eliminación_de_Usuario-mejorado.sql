@@ -36,8 +36,8 @@ END
 GO
 
 /* =======================
-   PRUEBAS (SSMS) - OPCIONALES
-   Ejecutar por bloques:
+   PRUEBAS (SSMS) - OPCIONALES (Descomentar para usar)
+   Ejecutamos por bloques seleccionando y presionando F5
    ======================= */
 -- 1) Ver estado antes
 -- SELECT * FROM dbo.Perfiles WHERE CodigoUsuario = 1000;

@@ -61,8 +61,8 @@ END
 GO
 
 /* =======================
-   PRUEBAS (SSMS) - OPCIONALES
-   Ejecuta por bloques (F5):
+   PRUEBAS (SSMS) - OPCIONALES (Descomentar para usar)
+   Ejecutamos por bloques seleccionando y presionando F5
    ======================= */
 
 -- 1) Traer todos

@@ -156,7 +156,13 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
    - **Resetear=1** ignora `@PassAnterior` (uso administrativo).  
    - Pruebas incluidas (comentadas).
 
-8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*  
+8. `08_TablasDelAplicativo-mejorado.sql`  
+   - Crea **Clientes, Departamentos, Servicios, DepartamentosServicios, Solicitudes (+Detalle), Facturas (+Detalle), Recibos (+Detalle)**.  
+   - FKs completas, índice único `(IdDepartamento, IdServicio)`, `NumeroSolicitud` único, checks opcionales (cantidades e importes no negativos).  
+   - Normaliza fechas a `datetime2(0)` con `DEFAULT SYSUTCDATETIME()` en cabeceras (Facturas/Recibos).  
+   - Pruebas rápidas comentadas.
+   - `Clientes` con **índice único filtrado** en `Cedula` (`WHERE Cedula IS NOT NULL`) para evitar duplicados no nulos.
+
 9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
 
 ### 🧰 Mantenimiento DEV (opcional)
@@ -186,7 +192,7 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 - [x] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
 - [x] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql 
 - [x] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
-- [ ] 08_TablasDelAplicativo-mejorado.sql  
+- [x] 08_TablasDelAplicativo-mejorado.sql
 - [ ] 09_ProcedimientosAplicativo-mejorado.sql
 
 **Utilitarios (DEV)**

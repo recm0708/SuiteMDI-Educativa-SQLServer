@@ -6,9 +6,9 @@
      - Crear tabla dbo.Perfiles (IDENTITY desde 1000)
      - Crear LOGIN/USER UsrProcesa y asignarlo como db_owner para DEV
    Notas:
-     - Mantengo VARCHAR como el código original. Si quisieras soporte pleno de tildes,
+     - Mantengo VARCHAR como el código original. Si se requiere soporte pleno de tildes,
        cambia VARCHAR por NVARCHAR (y N'...' en literales).
-     - El campo Pass queda VARBINARY(128) porque así viene en las indicaciones
+     - El campo Pass queda VARBINARY(128) porque así viene en las indicaciones originales
        (luego los SP definirán cómo se usa según "Sin_Encripcion").
    ============================================================================= */
 
@@ -16,15 +16,15 @@ SET NOCOUNT ON;
 SET XACT_ABORT ON;
 
 /* ---------------------------------------------------------------------------
-   0) Parámetros (Reutilizaremos el nombre de BD)
+   0) Parámetros (Reutilizaremos el nombre de la BD)
 --------------------------------------------------------------------------- */
 DECLARE @DbName SYSNAME = N'Ejemplo_SIN_Encripcion';
 DECLARE @LoginName SYSNAME = N'UsrProcesa';
 DECLARE @LoginPassword NVARCHAR(128) = N'Panama-utp@2025';  -- DEV: cambiar en producción
 
 /* ---------------------------------------------------------------------------
-   1) (OPCIONAL) Eliminar BD si existe
-       - Solo si realmente queremos recrearla. Si NO se desea borrarla, comentamos
+   1) (OPCIONAL) Elimina la BD si existe
+       - Solo si realmente queremos recrearla. Si no se desea borrarla, comentamos
          todo este bloque.
 --------------------------------------------------------------------------- */
 IF DB_ID(@DbName) IS NOT NULL
@@ -40,7 +40,7 @@ END
 GO
 
 /* ---------------------------------------------------------------------------
-   2) Crear BD (si no existe)
+   2) Crea la BD (si no existe)
 --------------------------------------------------------------------------- */
 IF DB_ID(N'Ejemplo_SIN_Encripcion') IS NULL
 BEGIN
@@ -49,7 +49,7 @@ END
 GO
 
 /* ---------------------------------------------------------------------------
-   3) Crear tabla(s) del aplicativo
+   3) Crea la(s) tabla(s) del aplicativo
 --------------------------------------------------------------------------- */
 USE [Ejemplo_SIN_Encripcion];
 GO
@@ -91,12 +91,12 @@ GO
 
 CREATE LOGIN [UsrProcesa]
 WITH PASSWORD = N'Panama-utp@2025',
-     CHECK_POLICY = ON,            -- DEV: sin política (se puede activar si se quiere)
+     CHECK_POLICY = ON,            -- DEV: sin política (se puede desactivar si no se requiere)
      CHECK_EXPIRATION = OFF,
      DEFAULT_DATABASE = [Ejemplo_SIN_Encripcion];
 GO
 
--- Crear el USER enlazado al LOGIN dentro de la BD
+-- Crea el USER enlazado al LOGIN dentro de la BD
 USE [Ejemplo_SIN_Encripcion];
 GO
 
@@ -106,14 +106,14 @@ BEGIN
 END
 GO
 
--- Asignar rol db_owner al usuario (DEV). En PROD se restringen permisos.
+-- Asigna rol db_owner al usuario (DEV). En PROD se restringen permisos.
 ALTER ROLE [db_owner] ADD MEMBER [UsrProcesa];
 GO
 
 /* ---------------------------------------------------------------------------
    5) (Opcional) Regla de negocio para que los IDs sean > 999
        - No es necesaria porque IDENTITY(1000,1) lo garantiza,
-         pero si quieres una verificación adicional. (Descomentar si se desea utilizar)
+         pero si se quiere una verificación adicional. (Descomentar si se desea utilizar)
 --------------------------------------------------------------------------- */
 /*
 ALTER TABLE dbo.Perfiles
@@ -134,7 +134,7 @@ SELECT OBJECT_ID(N'dbo.Perfiles', N'U') AS ObjId_Perfiles;
 SELECT name AS LoginName FROM sys.server_principals WHERE name = 'UsrProcesa';
 SELECT name AS DbUserName FROM sys.database_principals WHERE name = 'UsrProcesa';
 
--- ¿Empieza el IDENTITY en 1000? (inserción de prueba, si quieres)
+-- ¿Empieza el IDENTITY en 1000? (inserción de prueba, si se desea)
 -- BEGIN TRAN;
 -- INSERT INTO dbo.Perfiles (NombreUsuario,ApellidoUsuario,Email) VALUES ('Test','Uno','test@ejemplo.com');
 -- SELECT TOP 1 CodigoUsuario, NombreUsuario, ApellidoUsuario, Email FROM dbo.Perfiles ORDER BY CodigoUsuario DESC;

@@ -5,6 +5,8 @@ Todas las fechas en **YYYY-MM-DD**.
 ## [Unreleased]
 ### SQL
 - 07: `prModificarPasswordUsuarios` (idempotente, RESET opcional, retorna @@ROWCOUNT).
+- 08: Tablas del aplicativo (idempotente, FKs, UQ NumeroSolicitud, checks básicos, fechas normalizadas).
+- 08: `Clientes` — se agrega índice **único filtrado** `UX_Clientes_Cedula` (no permite Cédula duplicada cuando no es NULL). Idempotente.
 
 ### C#
 - Negocio: `ClsProcesosUsuarios.ModificarPassword(...)`.

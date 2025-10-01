@@ -4,7 +4,7 @@ GO
    Script: 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
    Proyecto: SuiteMDI-Educativa-SQLServer
    Objetivo:
-     - Cambiar la contraseña de un usuario.
+     - Cambia la contraseña de un usuario.
    Notas:
      - Idempotente (DROP/CREATE).
      - Retorna @@ROWCOUNT:
@@ -56,8 +56,8 @@ END
 GO
 
 /* =======================
-   PRUEBAS (SSMS) - OPCIONALES
-   Ejecutar por bloques:
+   PRUEBAS (SSMS) - OPCIONALES (Descomentar para usar)
+   Ejecutamos por bloques seleccionando y presionando F5
    ======================= */
 -- DECLARE @rc INT;
 

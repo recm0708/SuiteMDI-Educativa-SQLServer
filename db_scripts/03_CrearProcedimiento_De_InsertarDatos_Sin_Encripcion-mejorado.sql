@@ -69,8 +69,8 @@ END
 GO
 
 /* =======================
-   PRUEBAS (SSMS) - OPCIONALES
-   Ejecuta por bloques seleccionando y presionando F5
+   PRUEBAS (SSMS) - OPCIONALES (Descomentar para usar)
+   Ejecutamos por bloques seleccionando y presionando F5
    ======================= */
 
 -- 1) Inserción de ejemplo
@@ -86,7 +86,7 @@ GO
 --      @Pass = '123456';
 -- SELECT @CodigoU AS CodigoCreado;
 
--- 2) Verificar el registro nuevo (nota: NUNCA mostrar Pass en UI final)
+-- 2) Verificar el registro nuevo (nota: NUNCA mostrará Pass en UI final)
 -- SELECT TOP 1
 --     CodigoUsuario, NombreUsuario, SegundoNombre,
 --     ApellidoUsuario, SegundoApellido, ApellidoCasada,
