@@ -3,9 +3,20 @@
 Todas las fechas en **YYYY-MM-DD**.
 
 ## [Unreleased]
-- SQL 07: `prModificarPassword` (idempotente + pruebas).
-- UI: diálogo/campo para cambiar contraseña.
-- SQL 08–09: tablas/procedimientos del aplicativo.
+### SQL
+- 07: `prModificarPasswordUsuarios` (idempotente, RESET opcional, retorna @@ROWCOUNT).
+
+### C#
+- Negocio: `ClsProcesosUsuarios.ModificarPassword(...)`.
+- Acceso: `ValidarUsuario(...)` (login contra SP 02).
+
+### UI
+- `frmCambiarPassword`: flujo normal (anterior/nueva/confirmar) y **Resetear** (ignora anterior).
+- `frmAcceso`: validación real vía `prValidarUsuario`.
+
+### Docs
+- README actualizado (checklist 07 y guía de cambio de contraseña).
+
 
 ## [0.1.0] - 2025-09-28
 ### Añadido
