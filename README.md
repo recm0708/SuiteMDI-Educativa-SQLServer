@@ -149,7 +149,13 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
    - Actualiza datos (sin cambiar Pass) y **retorna `@@ROWCOUNT`** (1 = actualizado, 0 = no existía).  
    - Pruebas: SELECT antes/después + verificación de código de retorno.
 
-7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql` *(pendiente)*  
+7. `07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql`  
+   - Crea **dbo.prModificarPasswordUsuarios** con parámetros:  
+     `(@CodigoUsuario INT, @PassAnterior VARCHAR(500)=NULL, @PassNuevo VARCHAR(500), @Resetear BIT=0)`  
+   - Retorna **`@@ROWCOUNT`**: `1` si actualizó, `0` si no coincidió la contraseña anterior o no existe el código.  
+   - **Resetear=1** ignora `@PassAnterior` (uso administrativo).  
+   - Pruebas incluidas (comentadas).
+
 8. `08_TablasDelAplicativo-mejorado.sql` *(pendiente)*  
 9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
 
@@ -179,7 +185,7 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 - [x] 04_CrearProcedimiento_de_Consulta_de_Usuario-mejorado.sql  
 - [x] 05_CrearProcedimiento_de_Eliminación_de_Usuario-mejorado.sql  
 - [x] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql 
-- [ ] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql  
+- [x] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
 - [ ] 08_TablasDelAplicativo-mejorado.sql  
 - [ ] 09_ProcedimientosAplicativo-mejorado.sql
 
@@ -201,32 +207,82 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 <a name="ejecucion-y-pruebas"></a>
 ## ▶️ Ejecución y Pruebas
 
-1. **Compilar** en VS: `Compilar → Compilar solución`.  
-2. **Ejecutar**: `Depurar → Iniciar sin depuración (Ctrl+F5)`.  
-3. Al iniciar, **frmAcceso**:  
-   - **Parte A (básica)**: botón **Aceptar** prueba conexión (`SELECT 1`).  
-   - **Parte B (avanzada)**: validación real con `dbo.prValidarUsuario`.  
-4. **MDI** se abre solo si `Globales.gblInicioCorrecto == 1`.  
-5. CRUD de usuarios (cuando esté activo): **frmUsuarios** con grilla y acciones (Consultar/Insertar/Modificar/Eliminar/Cambiar Password).
-6. Edita directamente en la grilla (excepto **CodigoUsuario**, solo lectura).
-7. Presiona **Guardar edición** para aplicar los cambios (usa SP 06).
-8. Mensajes:
-  - **Actualizado correctamente**: se refresca la lista.
-  - **No existe / sin cambios**: 0 filas afectadas.
+### 1) Compilar y ejecutar
+1. **Compilar**: `Compilar → Compilar solución` (VS 2022, español).
+2. **Ejecutar**: `Depurar → Iniciar sin depuración (Ctrl+F5)`.
 
-### 📄 Consulta de usuarios (frmUsuarios)
-- Abrir desde **MDI**: **Catálogos → Usuarios**.
-- Búsqueda:
-  - Dejar **Código** vacío → muestra **todos**.
-  - Escribir **CódigoUsuario** (numérico) → filtra a un registro.
-- Si no ves filas, inserta un usuario con el **Script 03** y refresca.
+> Requisitos previos:
+> - Contenedor **SQL Server 2022 (Docker)** arriba en `127.0.0.1,2333`.
+> - `src/bd_A7_RubenCanizares/App.config` creado localmente desde `App.config.template.config`:
+>   - `<add key="ActiveDb" value="Docker"/>`
+>   - Cadena `SqlDocker` con tu **Password** real y **Database=Ejemplo_SIN_Encripcion**.
 
-### ✏️ Edición de usuarios (frmUsuarios) — columnas manuales
-- La grilla usa **columnas manuales** (AutoGenerateColumns = False) con mapeos a los campos del SP `prConsultarUsuarios`:  
-  `CodigoUsuario`, `NombreUsuario`, `SegundoNombre`, `ApellidoUsuario`, `SegundoApellido`, `ApellidoCasada`, `Email`.
-- **CodigoUsuario** es **solo lectura**; el resto se puede editar en línea.
-- Presiona **Guardar edición** para aplicar los cambios (SP 06).  
-- **Refrescar** recarga todos los registros.
+---
+
+### 2) Inicio de sesión (frmAcceso)
+- **Código**: `CodigoUsuario` (ej. `1000`, `1001`, …).
+- **Contraseña**: la almacenada en BD (texto plano convertido a `VARBINARY`).
+- Validación real con **SP** `dbo.prValidarUsuario` (Script 02).
+
+Mensajes:
+- **Correcto** ⇒ abre el MDI.
+- **Incorrecto** ⇒ “Usuario o contraseña incorrectos”.
+- **Error SQL** ⇒ muestra código y mensaje.
+
+---
+
+### 3) Usuarios – Consultar (frmUsuarios)
+- **Refrescar** ⇒ carga **todos** (usa `prConsultarUsuarios` – Script 04).
+- **Buscar por código**:
+  - Ingresa `Código` en `tbCodigo` y pulsa **Buscar** (0 o vacío = todos).
+- La grilla está configurada con **columnas manuales** (no autogeneradas):
+  - `CodigoUsuario` (solo lectura),
+  - `NombreUsuario`, `SegundoNombre`, `ApellidoUsuario`,
+  - `SegundoApellido`, `ApellidoCasada`, `Email`.
+
+---
+
+### 4) ✏️ Edición en línea (columnas manuales)
+- Edita directamente las celdas (excepto **Código**).
+- Pulsa **Guardar edición** ⇒ ejecuta `prModificarUsuarios` (Script 06).
+- Resultados:
+  - “Usuario actualizado correctamente.” ⇒ refresca la grilla.
+  - “No existe / sin cambios” ⇒ 0 filas afectadas.
+  - **Error SQL** ⇒ muestra detalle.
+
+> La grilla tiene `AutoGenerateColumns = False` y `DataPropertyName` mapeado a los campos del SP.
+
+---
+
+### 5) 🗑️ Eliminar usuario
+- Selecciona una fila **o** escribe un `Código` y pulsa **Eliminar**.
+- Confirmación ⇒ ejecuta `prEliminarUsuario` (Script 05).
+- Mensajes:
+  - Eliminado correctamente (1 fila).
+  - Código inexistente (0 filas).
+
+---
+
+### 6) 🔒 Cambio de contraseña
+- Selecciona una fila y pulsa **Cambiar contraseña**:
+  - **Modo normal**: ingresa **Anterior** + **Nueva** + **Confirmar**.
+  - **Modo Resetear**: marca *Resetear (ignora anterior)*.
+- Ejecuta `prModificarPasswordUsuarios` (Script 07).
+- Comportamiento:
+  - **1** ⇒ actualizada.
+  - **0** ⇒ código inexistente o **Anterior** inválida.
+- La UI recorta espacios en blanco (trim) en entradas de contraseña.
+- Si marcas **Resetear**, el campo **Anterior** queda deshabilitado y vacío.
+
+---
+
+### 7) Notas y verificación rápida
+- Si el login o el cambio de contraseña **no reflejan** lo visto en SSMS:
+  1. Verifica `ActiveDb` y cadena `SqlDocker` en tu **App.config local**.
+  2. Confirma que la **BD** es `Ejemplo_SIN_Encripcion` (el contenedor correcto).
+  3. Scripts SQL **01 → 07** ejecutados en orden y **sin errores**.
+- **Usuarios de prueba**:
+  - Inserta con `prInsertarUsuario` (Script 03) y luego prueba login.
 
 ---
 
@@ -273,6 +329,7 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 | Usuarios        | ![frmUsuarios](./docs/capturas/frmUsuarios.png) |
 | Usuarios (eliminar) | ![frmUsuarios-Eliminar](./docs/capturas/frmUsuarios-Eliminar.png) |
 | Usuarios (editar) | ![frmUsuarios-Editar](./docs/capturas/frmUsuarios-Editar.png) |
+| Cambiar contraseña | ![frmCambiarPassword](./docs/capturas/frmCambiarPassword.png) |
 
 ---
 
