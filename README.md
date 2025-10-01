@@ -348,13 +348,6 @@ Mensajes:
   - **v0.3.0 — Parte B: Eliminar/Modificar (05–06)** *(publicada)*
   - **v0.1.0 — Parte A: base MDI + conexión** *(publicada)*
 
-> Flujo recomendado por issue:
-> 1) Crear issue con label(s) y milestone.  
-> 2) Añadir al Project (columna **To do**).  
-> 3) Al trabajar, mover a **In progress**.  
-> 4) PR/Commit que cierre la issue: `Closes #N`.  
-> 5) Al cerrar, el Project pasa a **Done** (workflow).
-
 ---
 
 ### Releases
@@ -384,14 +377,6 @@ Mensajes:
   - ⏳ SQL 08: Tablas del aplicativo.
   - ⏳ SQL 09: Procedimientos del aplicativo.
   - ⏳ Docs: README/CHANGELOG, capturas extra.
-
----
-
-### 🔐 (Opcional) Protección de rama `main`
-- Activar cuando el CI esté verde de forma consistente:
-  - Requerir PR para `main`, 1+ review, y **status checks** (build) obligatorios.
-  - Impedir pushes directos a `main`.
-- Si necesitas revertir: desactivar temporalmente en **Settings → Branches → Branch protection rules**.
 
 ---
 
