@@ -7,6 +7,10 @@ Todas las fechas en **YYYY-MM-DD**.
 - 07: `prModificarPasswordUsuarios` (idempotente, RESET opcional, retorna @@ROWCOUNT).
 - 08: Tablas del aplicativo (idempotente, FKs, UQ NumeroSolicitud, checks básicos, fechas normalizadas).
 - 08: `Clientes` — se agrega índice **único filtrado** `UX_Clientes_Cedula` (no permite Cédula duplicada cuando no es NULL). Idempotente.
+- 09: Procedimientos del aplicativo (Solicitudes y Detalle): insertar/actualizar/consultar/eliminar.
+  - `prInsertarSolicitud` con generación `NumeroSolicitud` **SBSNN-secuencial** por año.
+  - Consultas por número o rango de fechas (por día) y por cliente.
+  - Uso de `CREATE OR ALTER`, `SET NOCOUNT ON`, retorno de `@@ROWCOUNT` en updates/deletes.
 
 ### C#
 - Negocio: `ClsProcesosUsuarios.ModificarPassword(...)`.

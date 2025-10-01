@@ -163,7 +163,11 @@ Ejecuta los scripts de **/db_scripts** en **este orden** usando **SSMS** conecta
    - Pruebas rápidas comentadas.
    - `Clientes` con **índice único filtrado** en `Cedula` (`WHERE Cedula IS NOT NULL`) para evitar duplicados no nulos.
 
-9. `09_ProcedimientosAplicativo-mejorado.sql` *(pendiente)*
+9. `09_ProcedimientosAplicativo-mejorado.sql`  
+   - SPs de **Solicitudes** y **SolicitudesDetalle**: insertar, actualizar, consultar y eliminar.  
+   - `prInsertarSolicitud`: genera `NumeroSolicitud` con formato **SBSNN-secuencial** (por año).  
+   - Consultas avanzadas por **número** o **rango de fechas** (comparación por día) y por **cliente**.  
+   - Todos los SP retornan `@@ROWCOUNT` cuando aplica; `SET NOCOUNT ON` en todos; `CREATE OR ALTER` idempotente.  
 
 ### 🧰 Mantenimiento DEV (opcional)
 - `10_Mantenimiento_Reseed_Perfiles.sql`  
@@ -193,7 +197,7 @@ SELECT OBJECT_ID('dbo.prEliminarUsuario','P') AS prEliminarUsuario;
 - [x] 06_CrearProcedimiento_de_Modificar_de_Usuario-mejorado.sql 
 - [x] 07_CrearProcedimiento_de_Modificar_PassWord_Sin_Encripcion-mejorado.sql
 - [x] 08_TablasDelAplicativo-mejorado.sql
-- [ ] 09_ProcedimientosAplicativo-mejorado.sql
+- [x] 09_ProcedimientosAplicativo-mejorado.sql
 
 **Utilitarios (DEV)**
 - [x] 10_Mantenimiento_Reseed_Perfiles.sql
@@ -348,8 +352,8 @@ Mensajes:
 - **Milestones activas**:
   - **v0.4.0 — Parte B (07–09)** *(en curso)*
     - ✅ 07: Cambiar contraseña (SQL + Negocio + UI)
-    - ⏳ 08: Tablas del aplicativo
-    - ⏳ 09: Procedimientos del aplicativo
+    - ✅ 08: Tablas del aplicativo
+    - ✅ 09: Procedimientos del aplicativo
   - **v0.3.1 — UI: columnas manuales + AssemblyInfo pro** *(publicada)*
   - **v0.3.0 — Parte B: Eliminar/Modificar (05–06)** *(publicada)*
   - **v0.1.0 — Parte A: base MDI + conexión** *(publicada)*
