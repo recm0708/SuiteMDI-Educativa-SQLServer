@@ -385,10 +385,6 @@ Mensajes:
   - ⏳ SQL 09: Procedimientos del aplicativo.
   - ⏳ Docs: README/CHANGELOG, capturas extra.
 
-> Cuando 08–09 estén listos:
-> - Mover items de `[Unreleased]` a **v0.4.0** en `CHANGELOG.md` con fecha.
-> - Crear tag `v0.4.0` y publicar el Release con notas.
-
 ---
 
 ### 🔐 (Opcional) Protección de rama `main`
